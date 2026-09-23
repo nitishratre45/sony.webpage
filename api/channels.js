@@ -1,8 +1,6 @@
 export default async function handler(req, res) {
   try {
-    const response = await fetch(
-      "https://sayan-sportlink-sonynetwork.pages.dev/sonyliv.json"
-    );
+    const response = await fetch(process.env.UPSTREAM_API);
 
     if (!response.ok) {
       return res.status(response.status).json({
