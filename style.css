@@ -1,0 +1,933 @@
+/* =========================================================
+   CRICXCRATE HOME
+   SCREENSHOT #4 STYLE
+   UI ONLY
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    background: #070306;
+    color: #fff;
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   MAIN HOME
+========================================================= */
+
+#channel-list {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+
+    display: none;
+    flex-direction: column;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(120, 0, 30, .20),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #080306 0%,
+            #120408 45%,
+            #070305 100%
+        );
+
+    padding:
+        0
+        0
+        60px;
+}
+
+
+/* =========================================================
+   BACKGROUND DECORATION
+========================================================= */
+
+#channel-list::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: .45;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0,
+            transparent 58px,
+            rgba(255, 0, 60, .035) 59px,
+            transparent 60px
+        );
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.cx-header {
+    position: sticky;
+    top: 0;
+
+    z-index: 50;
+
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 0 auto;
+
+    height: 78px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 0;
+
+    background: rgba(8, 3, 6, .88);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.cx-brand {
+    font-size: 22px;
+    font-weight: 900;
+
+    letter-spacing: .5px;
+
+    color: #fff;
+
+    text-shadow:
+        0 0 18px rgba(255, 40, 70, .12);
+}
+
+
+/* =========================================================
+   HEADER RIGHT
+========================================================= */
+
+.cx-header-right {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+/* ON AIR */
+
+.cx-live-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 7px 12px;
+
+    border:
+        1px solid
+        rgba(255, 50, 80, .35);
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 20, 60, .05);
+
+    color: #ff526b;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.cx-live-dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #ff3154;
+
+    box-shadow:
+        0 0 8px #ff3154;
+}
+
+
+/* COUNTER */
+
+.cx-counter {
+    min-width: 36px;
+
+    padding: 7px 10px;
+
+    border-radius: 999px;
+
+    background: #ff304f;
+
+    text-align: center;
+
+    font-size: 8px;
+    font-weight: 900;
+}
+
+.cx-counter-label {
+    font-size: 7px;
+    color: #999;
+
+    letter-spacing: 1px;
+}
+
+
+/* JOIN */
+
+.cx-join {
+    border: 0;
+
+    padding: 10px 19px;
+
+    border-radius: 999px;
+
+    background: #fff;
+
+    color: #0b0709;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.cx-join:hover {
+    transform: translateY(-2px);
+    background: #f2f2f2;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.cx-hero {
+    position: relative;
+
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 0 auto;
+
+    padding:
+        72px 0
+        18px;
+}
+
+
+/* =========================================================
+   KICKER
+========================================================= */
+
+.cx-kicker {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 12px;
+
+    color: #ff304f;
+
+    font-size: 12px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+.cx-kicker span {
+    width: 21px;
+    height: 2px;
+
+    background: #ff304f;
+
+    box-shadow:
+        0 0 10px rgba(255, 48, 79, .45);
+}
+
+
+/* =========================================================
+   MAIN TITLE
+========================================================= */
+
+.cx-hero h1 {
+    position: relative;
+
+    max-width: 650px;
+
+    font-size: clamp(
+        50px,
+        7vw,
+        82px
+    );
+
+    line-height: .91;
+
+    font-weight: 950;
+
+    letter-spacing: -3px;
+
+    color: #fff;
+}
+
+.cx-hero h1 strong {
+    display: block;
+
+    color: #ff304f;
+
+    font-weight: 950;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.cx-search {
+    position: relative;
+
+    width: 215px;
+
+    margin-top: 17px;
+}
+
+.cx-search svg {
+    position: absolute;
+
+    left: 11px;
+    top: 50%;
+
+    width: 13px;
+    height: 13px;
+
+    transform:
+        translateY(-50%);
+
+    stroke: #777;
+
+    fill: none;
+
+    stroke-width: 2;
+}
+
+.cx-search input {
+    width: 100%;
+
+    height: 30px;
+
+    padding:
+        0
+        12px
+        0
+        31px;
+
+    outline: none;
+
+    border:
+        1px solid
+        rgba(255, 48, 79, .38);
+
+    border-radius: 999px;
+
+    background:
+        rgba(0, 0, 0, .18);
+
+    color: #fff;
+
+    font-size: 9px;
+}
+
+.cx-search input::placeholder {
+    color: #777;
+}
+
+.cx-search input:focus {
+    border-color: #ff304f;
+
+    box-shadow:
+        0 0 18px
+        rgba(255, 48, 79, .10);
+}
+
+
+/* =========================================================
+   CATEGORY BAR
+========================================================= */
+
+.cx-categories {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    width: 100%;
+
+    margin-top: 13px;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+.cx-categories::-webkit-scrollbar {
+    display: none;
+}
+
+
+.cx-category {
+    flex-shrink: 0;
+
+    padding:
+        7px
+        14px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .10);
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, .025);
+
+    color: #ddd;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        .2s ease;
+}
+
+.cx-category:hover,
+.cx-category.active {
+    color: #fff;
+
+    border-color:
+        rgba(255, 48, 79, .8);
+
+    background:
+        #ff304f;
+
+    box-shadow:
+        0 4px 18px
+        rgba(255, 48, 79, .18);
+}
+
+
+/* =========================================================
+   RED LINE
+========================================================= */
+
+.cx-red-line {
+    width: 100%;
+    height: 4px;
+
+    margin-top: 13px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff304f 0%,
+            #ff304f 92%,
+            rgba(255,255,255,.05) 92%
+        );
+
+    box-shadow:
+        0 0 10px
+        rgba(255, 48, 79, .15);
+}
+
+
+/* =========================================================
+   CHANNEL GRID
+========================================================= */
+
+#ch-grid {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 18px auto 0;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(160px, 1fr)
+        );
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   CHANNEL CARD
+========================================================= */
+
+.ch-card {
+    position: relative;
+
+    min-height: 145px;
+
+    padding: 17px 13px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.015)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.075);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,.30);
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease;
+}
+
+.ch-card:hover {
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(255, 48, 79, .45);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,48,79,.09),
+            rgba(255,255,255,.02)
+        );
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.ch-card .ch-logo,
+.ch-card .ch-placeholder {
+    width: 100px;
+    height: 55px;
+
+    object-fit: contain;
+
+    padding: 5px;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255,255,255,.035);
+}
+
+.ch-card .ch-placeholder {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #aaa;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   NAME
+========================================================= */
+
+.ch-card .ch-name {
+    max-width: 100%;
+
+    color: #eee;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.ch-card .ch-badge {
+    padding:
+        4px
+        10px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    color: #999;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: .7px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+#channel-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+#channel-list::-webkit-scrollbar-thumb {
+    background: #351017;
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   PLAYER
+   EXISTING PLAYER BEHAVIOUR PRESERVED
+========================================================= */
+
+#pc {
+    position: fixed;
+    inset: 0;
+
+    z-index: 100;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    background: #000;
+}
+
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+#overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #151515 0%,
+            #080808 45%,
+            #030303 100%
+        );
+}
+
+#overlay svg {
+    animation:
+        spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#overlay p {
+    color: #999;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+#status {
+    position: fixed;
+
+    top: 14px;
+    right: 14px;
+
+    z-index: 9997;
+
+    padding:
+        7px 14px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(12,12,12,.86);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    color: #fff;
+
+    font-size: 11px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        .25s ease;
+}
+
+#status.show {
+    opacity: 1;
+}
+
+#status.ok {
+    color: #f87171;
+}
+
+#status.warn {
+    color: #fb923c;
+}
+
+#status.err {
+    color: #ff6b6b;
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 1200px) {
+
+    .cx-header,
+    .cx-hero,
+    #ch-grid {
+        max-width: 1000px;
+    }
+
+    #ch-grid {
+        grid-template-columns:
+            repeat(
+                5,
+                1fr
+            );
+
+        gap: 14px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .cx-header,
+    .cx-hero,
+    #ch-grid {
+        max-width: calc(
+            100% - 40px
+        );
+    }
+
+    .cx-hero h1 {
+        font-size: 60px;
+    }
+
+    #ch-grid {
+        grid-template-columns:
+            repeat(
+                4,
+                1fr
+            );
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .cx-header {
+        height: 65px;
+    }
+
+    .cx-brand {
+        font-size: 17px;
+    }
+
+    .cx-header-right {
+        gap: 4px;
+    }
+
+    .cx-live-pill,
+    .cx-counter-label {
+        display: none;
+    }
+
+    .cx-counter {
+        padding: 6px 8px;
+    }
+
+    .cx-join {
+        padding:
+            8px 13px;
+
+        font-size: 8px;
+    }
+
+    .cx-hero {
+        max-width:
+            calc(100% - 24px);
+
+        padding-top: 42px;
+    }
+
+    .cx-hero h1 {
+        font-size: 48px;
+
+        letter-spacing:
+            -2px;
+    }
+
+    .cx-search {
+        width: 215px;
+    }
+
+    #ch-grid {
+        max-width:
+            calc(100% - 24px);
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 9px;
+    }
+
+    .ch-card {
+        min-height: 125px;
+
+        padding: 12px 7px;
+    }
+
+    .ch-card .ch-logo,
+    .ch-card .ch-placeholder {
+        width: 90px;
+        height: 48px;
+    }
+
+    .ch-card .ch-name {
+        font-size: 10px;
+    }
+
+}
