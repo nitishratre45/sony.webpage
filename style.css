@@ -1,7 +1,28 @@
 /* =========================================================
-   CRICXCRATE HOME
-   SCREENSHOT #4 STYLE
-   UI ONLY
+   CRICXCRATE PREMIUM UI
+   Modern • Smooth • Responsive • Lightweight
+========================================================= */
+
+:root {
+    --bg: #070306;
+    --bg-2: #10050a;
+    --card: rgba(255,255,255,.045);
+    --card-hover: rgba(255,255,255,.075);
+
+    --red: #ff1744;
+    --red-2: #ff3b55;
+    --red-soft: rgba(255,23,68,.16);
+
+    --text: #fff7f8;
+    --muted: #a99da1;
+    --border: rgba(255,255,255,.085);
+
+    --radius: 18px;
+}
+
+
+/* =========================================================
+   RESET
 ========================================================= */
 
 * {
@@ -13,30 +34,166 @@
 html,
 body {
     width: 100%;
-    min-height: 100%;
-    background: #070306;
-    color: #fff;
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+
     font-family:
         Inter,
         "Segoe UI",
         Roboto,
+        Helvetica,
         Arial,
         sans-serif;
-}
 
-body {
-    overflow-x: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+
+    -webkit-tap-highlight-color: transparent;
+
+    scroll-behavior: smooth;
 }
 
 
 /* =========================================================
-   MAIN HOME
+   BODY BACKGROUND
+========================================================= */
+
+body {
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(255,23,68,.12),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at 0% 60%,
+            rgba(255,23,68,.055),
+            transparent 32%
+        ),
+        linear-gradient(
+            145deg,
+            #050204 0%,
+            #0b0307 45%,
+            #050204 100%
+        );
+}
+
+
+/* =========================================================
+   PREMIUM AMBIENT BACKGROUND
+========================================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+    z-index: -1;
+
+    opacity: .45;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0,
+            rgba(255,23,68,.035) 50%,
+            transparent 100%
+        );
+
+    animation: ambientMove 10s ease-in-out infinite alternate;
+}
+
+@keyframes ambientMove {
+    from {
+        transform: translateX(-2%);
+        opacity: .30;
+    }
+
+    to {
+        transform: translateX(2%);
+        opacity: .55;
+    }
+}
+
+
+/* =========================================================
+   LOADING OVERLAY
+========================================================= */
+
+#overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 18px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #17070d 0%,
+            #080306 48%,
+            #030102 100%
+        );
+
+    animation: overlayFade .35s ease;
+}
+
+@keyframes overlayFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#overlay svg {
+    width: 44px;
+    height: 44px;
+
+    animation: spin 1s linear infinite;
+
+    filter:
+        drop-shadow(0 0 8px rgba(255,23,68,.45))
+        drop-shadow(0 0 24px rgba(255,23,68,.18));
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#overlay p {
+    color: #b8aeb2;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    letter-spacing: .5px;
+
+    text-align: center;
+    padding: 0 24px;
+}
+
+
+/* =========================================================
+   CHANNEL LIST / HOME
 ========================================================= */
 
 #channel-list {
     position: fixed;
     inset: 0;
-    z-index: 10;
+    z-index: 9998;
 
     display: none;
     flex-direction: column;
@@ -44,449 +201,81 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
 
+    padding:
+        max(22px, env(safe-area-inset-top))
+        max(14px, 3vw)
+        max(28px, env(safe-area-inset-bottom));
+
     background:
         radial-gradient(
-            circle at 50% 20%,
-            rgba(120, 0, 30, .20),
+            circle at 50% -15%,
+            rgba(255,23,68,.10),
             transparent 35%
         ),
+        radial-gradient(
+            circle at 100% 55%,
+            rgba(255,23,68,.045),
+            transparent 30%
+        ),
         linear-gradient(
-            135deg,
-            #080306 0%,
-            #120408 45%,
-            #070305 100%
+            145deg,
+            #080305,
+            #110408 48%,
+            #060204
         );
 
-    padding:
-        0
-        0
-        60px;
+    animation: pageEnter .55s cubic-bezier(.22,.61,.36,1);
+}
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
 /* =========================================================
-   BACKGROUND DECORATION
+   TOP TITLE
 ========================================================= */
 
-#channel-list::before {
-    content: "";
-
-    position: fixed;
-    inset: 0;
-
-    pointer-events: none;
-
-    opacity: .45;
-
-    background:
-        repeating-linear-gradient(
-            0deg,
-            transparent 0,
-            transparent 58px,
-            rgba(255, 0, 60, .035) 59px,
-            transparent 60px
-        );
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.cx-header {
+#channel-list h1 {
     position: sticky;
     top: 0;
-
-    z-index: 50;
+    z-index: 20;
 
     width: 100%;
-    max-width: 1000px;
 
-    margin: 0 auto;
+    margin: 0 auto 24px;
+    padding: 17px 18px;
 
-    height: 78px;
+    color: #fff;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    font-size: clamp(16px, 2vw, 21px);
+    font-weight: 850;
 
-    padding: 0 0;
+    letter-spacing: .7px;
+    text-align: center;
 
-    background: rgba(8, 3, 6, .88);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(10,3,6,.94),
+            rgba(10,3,6,.76)
+        );
+
+    border-bottom: 1px solid rgba(255,255,255,.055);
 
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-}
-
-
-/* =========================================================
-   BRAND
-========================================================= */
-
-.cx-brand {
-    font-size: 22px;
-    font-weight: 900;
-
-    letter-spacing: .5px;
-
-    color: #fff;
 
     text-shadow:
-        0 0 18px rgba(255, 40, 70, .12);
-}
-
-
-/* =========================================================
-   HEADER RIGHT
-========================================================= */
-
-.cx-header-right {
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-}
-
-
-/* ON AIR */
-
-.cx-live-pill {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-
-    padding: 7px 12px;
-
-    border:
-        1px solid
-        rgba(255, 50, 80, .35);
-
-    border-radius: 999px;
-
-    background:
-        rgba(255, 20, 60, .05);
-
-    color: #ff526b;
-
-    font-size: 8px;
-    font-weight: 800;
-
-    letter-spacing: 1.5px;
-}
-
-.cx-live-dot {
-    width: 5px;
-    height: 5px;
-
-    border-radius: 50%;
-
-    background: #ff3154;
-
-    box-shadow:
-        0 0 8px #ff3154;
-}
-
-
-/* COUNTER */
-
-.cx-counter {
-    min-width: 36px;
-
-    padding: 7px 10px;
-
-    border-radius: 999px;
-
-    background: #ff304f;
-
-    text-align: center;
-
-    font-size: 8px;
-    font-weight: 900;
-}
-
-.cx-counter-label {
-    font-size: 7px;
-    color: #999;
-
-    letter-spacing: 1px;
-}
-
-
-/* JOIN */
-
-.cx-join {
-    border: 0;
-
-    padding: 10px 19px;
-
-    border-radius: 999px;
-
-    background: #fff;
-
-    color: #0b0709;
-
-    font-size: 10px;
-    font-weight: 900;
-
-    cursor: pointer;
-
-    transition:
-        transform .2s ease,
-        background .2s ease;
-}
-
-.cx-join:hover {
-    transform: translateY(-2px);
-    background: #f2f2f2;
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.cx-hero {
-    position: relative;
-
-    width: 100%;
-    max-width: 1000px;
-
-    margin: 0 auto;
-
-    padding:
-        72px 0
-        18px;
-}
-
-
-/* =========================================================
-   KICKER
-========================================================= */
-
-.cx-kicker {
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
-
-    margin-bottom: 12px;
-
-    color: #ff304f;
-
-    font-size: 12px;
-    font-weight: 900;
-
-    letter-spacing: 2px;
-}
-
-.cx-kicker span {
-    width: 21px;
-    height: 2px;
-
-    background: #ff304f;
-
-    box-shadow:
-        0 0 10px rgba(255, 48, 79, .45);
-}
-
-
-/* =========================================================
-   MAIN TITLE
-========================================================= */
-
-.cx-hero h1 {
-    position: relative;
-
-    max-width: 650px;
-
-    font-size: clamp(
-        50px,
-        7vw,
-        82px
-    );
-
-    line-height: .91;
-
-    font-weight: 950;
-
-    letter-spacing: -3px;
-
-    color: #fff;
-}
-
-.cx-hero h1 strong {
-    display: block;
-
-    color: #ff304f;
-
-    font-weight: 950;
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-.cx-search {
-    position: relative;
-
-    width: 215px;
-
-    margin-top: 17px;
-}
-
-.cx-search svg {
-    position: absolute;
-
-    left: 11px;
-    top: 50%;
-
-    width: 13px;
-    height: 13px;
-
-    transform:
-        translateY(-50%);
-
-    stroke: #777;
-
-    fill: none;
-
-    stroke-width: 2;
-}
-
-.cx-search input {
-    width: 100%;
-
-    height: 30px;
-
-    padding:
-        0
-        12px
-        0
-        31px;
-
-    outline: none;
-
-    border:
-        1px solid
-        rgba(255, 48, 79, .38);
-
-    border-radius: 999px;
-
-    background:
-        rgba(0, 0, 0, .18);
-
-    color: #fff;
-
-    font-size: 9px;
-}
-
-.cx-search input::placeholder {
-    color: #777;
-}
-
-.cx-search input:focus {
-    border-color: #ff304f;
-
-    box-shadow:
-        0 0 18px
-        rgba(255, 48, 79, .10);
-}
-
-
-/* =========================================================
-   CATEGORY BAR
-========================================================= */
-
-.cx-categories {
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    width: 100%;
-
-    margin-top: 13px;
-
-    overflow-x: auto;
-
-    scrollbar-width: none;
-}
-
-.cx-categories::-webkit-scrollbar {
-    display: none;
-}
-
-
-.cx-category {
-    flex-shrink: 0;
-
-    padding:
-        7px
-        14px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, .10);
-
-    border-radius: 999px;
-
-    background:
-        rgba(255, 255, 255, .025);
-
-    color: #ddd;
-
-    font-size: 9px;
-    font-weight: 700;
-
-    white-space: nowrap;
-
-    cursor: pointer;
-
-    transition:
-        .2s ease;
-}
-
-.cx-category:hover,
-.cx-category.active {
-    color: #fff;
-
-    border-color:
-        rgba(255, 48, 79, .8);
-
-    background:
-        #ff304f;
-
-    box-shadow:
-        0 4px 18px
-        rgba(255, 48, 79, .18);
-}
-
-
-/* =========================================================
-   RED LINE
-========================================================= */
-
-.cx-red-line {
-    width: 100%;
-    height: 4px;
-
-    margin-top: 13px;
-
-    border-radius: 999px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #ff304f 0%,
-            #ff304f 92%,
-            rgba(255,255,255,.05) 92%
-        );
-
-    box-shadow:
-        0 0 10px
-        rgba(255, 48, 79, .15);
+        0 0 20px rgba(255,255,255,.12);
 }
 
 
@@ -495,23 +284,22 @@ body {
 ========================================================= */
 
 #ch-grid {
-    position: relative;
-    z-index: 2;
-
     width: 100%;
-    max-width: 1000px;
+    max-width: 1450px;
 
-    margin: 18px auto 0;
+    margin: 0 auto;
 
     display: grid;
 
     grid-template-columns:
         repeat(
             auto-fill,
-            minmax(160px, 1fr)
+            minmax(170px, 1fr)
         );
 
-    gap: 12px;
+    gap: 17px;
+
+    padding-bottom: 30px;
 }
 
 
@@ -522,108 +310,282 @@ body {
 .ch-card {
     position: relative;
 
-    min-height: 145px;
+    min-height: 158px;
 
-    padding: 17px 13px;
+    padding: 20px 15px;
 
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
 
-    gap: 10px;
+    gap: 12px;
 
     text-align: center;
-
     text-decoration: none;
+
+    cursor: pointer;
+
+    isolation: isolate;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,.055),
-            rgba(255,255,255,.015)
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.018)
         );
 
-    border:
-        1px solid
-        rgba(255,255,255,.075);
+    border: 1px solid var(--border);
 
-    border-radius: 12px;
+    border-radius: var(--radius);
 
     box-shadow:
-        0 10px 30px
-        rgba(0,0,0,.30);
+        0 12px 35px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.035);
+
+    overflow: hidden;
+
+    transform: translateZ(0);
 
     transition:
-        transform .2s ease,
-        border-color .2s ease,
-        background .2s ease;
+        transform .32s cubic-bezier(.22,.61,.36,1),
+        border-color .32s ease,
+        background .32s ease,
+        box-shadow .32s ease;
 }
+
+
+/* TOP RED LIGHT */
+
+.ch-card::after {
+    content: "";
+
+    position: absolute;
+
+    top: -70px;
+    left: 50%;
+
+    width: 150px;
+    height: 120px;
+
+    transform: translateX(-50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,23,68,.20),
+            transparent 70%
+        );
+
+    opacity: .25;
+
+    pointer-events: none;
+
+    transition:
+        opacity .35s ease,
+        transform .35s ease;
+}
+
+
+/* SHINE */
+
+.ch-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            110deg,
+            transparent 20%,
+            rgba(255,255,255,.09) 45%,
+            transparent 70%
+        );
+
+    transform:
+        translateX(-120%);
+
+    transition:
+        transform .65s cubic-bezier(.22,.61,.36,1);
+
+    pointer-events: none;
+}
+
+
+/* HOVER */
 
 .ch-card:hover {
     transform:
-        translateY(-4px);
+        translateY(-6px)
+        scale(1.012);
 
     border-color:
-        rgba(255, 48, 79, .45);
+        rgba(255,23,68,.42);
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,48,79,.09),
-            rgba(255,255,255,.02)
+            rgba(255,23,68,.115),
+            rgba(255,255,255,.035)
         );
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.48),
+        0 0 28px rgba(255,23,68,.10),
+        inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.ch-card:hover::before {
+    transform:
+        translateX(120%);
+}
+
+.ch-card:hover::after {
+    opacity: .75;
+    transform:
+        translateX(-50%)
+        scale(1.25);
+}
+
+
+/* CLICK */
+
+.ch-card:active {
+    transform:
+        translateY(-1px)
+        scale(.975);
+
+    transition-duration: .1s;
+}
+
+
+/* KEYBOARD */
+
+.ch-card:focus-visible {
+    outline: none;
+
+    border-color: var(--red);
+
+    box-shadow:
+        0 0 0 3px rgba(255,23,68,.15),
+        0 0 30px rgba(255,23,68,.12);
 }
 
 
 /* =========================================================
-   LOGO
+   CHANNEL LOGO
 ========================================================= */
 
-.ch-card .ch-logo,
-.ch-card .ch-placeholder {
-    width: 100px;
-    height: 55px;
+.ch-card .ch-logo {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 132px;
+
+    height: 66px;
 
     object-fit: contain;
 
-    padding: 5px;
+    padding: 7px;
 
-    border-radius: 9px;
+    border-radius: 12px;
 
     background:
         rgba(255,255,255,.035);
+
+    border:
+        1px solid rgba(255,255,255,.035);
+
+    transition:
+        transform .35s cubic-bezier(.22,.61,.36,1),
+        filter .35s ease,
+        background .35s ease;
 }
 
-.ch-card .ch-placeholder {
-    display: flex;
+.ch-card:hover .ch-logo {
+    transform:
+        scale(1.06)
+        translateY(-2px);
 
+    filter:
+        drop-shadow(0 6px 14px rgba(255,23,68,.13));
+
+    background:
+        rgba(255,255,255,.055);
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.ch-card .ch-placeholder {
+    position: relative;
+    z-index: 2;
+
+    width: 132px;
+    height: 66px;
+
+    display: flex;
     align-items: center;
     justify-content: center;
+
+    border-radius: 12px;
 
     color: #aaa;
 
     font-size: 13px;
-    font-weight: 800;
+    font-weight: 750;
+
+    letter-spacing: .7px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #211117,
+            #0d0709
+        );
+
+    border:
+        1px solid rgba(255,255,255,.06);
 }
 
 
 /* =========================================================
-   NAME
+   CHANNEL NAME
 ========================================================= */
 
 .ch-card .ch-name {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
     max-width: 100%;
 
-    color: #eee;
+    color: #f8eff1;
 
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
 
-    line-height: 1.3;
+    line-height: 1.35;
+
+    letter-spacing: .15px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    transition:
+        color .25s ease;
+}
+
+.ch-card:hover .ch-name {
+    color: #fff;
 }
 
 
@@ -632,53 +594,52 @@ body {
 ========================================================= */
 
 .ch-card .ch-badge {
-    padding:
-        4px
-        10px;
+    position: relative;
+    z-index: 2;
+
+    padding: 5px 10px;
+
+    color: #bdb2b6;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: .65px;
+
+    text-transform: uppercase;
+
+    background:
+        rgba(255,255,255,.045);
 
     border:
-        1px solid
-        rgba(255,255,255,.06);
+        1px solid rgba(255,255,255,.065);
 
     border-radius: 999px;
 
+    transition:
+        color .25s ease,
+        border-color .25s ease,
+        background .25s ease;
+}
+
+.ch-card:hover .ch-badge {
+    color: #ffb8c4;
+
+    border-color:
+        rgba(255,23,68,.22);
+
     background:
-        rgba(255,255,255,.05);
-
-    color: #999;
-
-    font-size: 8px;
-    font-weight: 700;
-
-    letter-spacing: .7px;
-
-    text-transform: uppercase;
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-#channel-list::-webkit-scrollbar {
-    width: 5px;
-}
-
-#channel-list::-webkit-scrollbar-thumb {
-    background: #351017;
-    border-radius: 20px;
+        rgba(255,23,68,.08);
 }
 
 
 /* =========================================================
    PLAYER
-   EXISTING PLAYER BEHAVIOUR PRESERVED
 ========================================================= */
 
 #pc {
     position: fixed;
     inset: 0;
-
     z-index: 100;
 
     display: none;
@@ -687,6 +648,8 @@ body {
     justify-content: center;
 
     background: #000;
+
+    touch-action: manipulation;
 }
 
 video {
@@ -696,52 +659,16 @@ video {
     object-fit: contain;
 
     background: #000;
+
+    will-change: transform;
 }
 
-
-/* =========================================================
-   OVERLAY
-========================================================= */
-
-#overlay {
-    position: fixed;
-    inset: 0;
-
-    z-index: 9999;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-direction: column;
-
-    gap: 18px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #151515 0%,
-            #080808 45%,
-            #030303 100%
-        );
+video.mode-fill {
+    object-fit: fill;
 }
 
-#overlay svg {
-    animation:
-        spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-#overlay p {
-    color: #999;
-
-    font-size: 13px;
+video.mode-cover {
+    object-fit: cover;
 }
 
 
@@ -752,45 +679,62 @@ video {
 #status {
     position: fixed;
 
-    top: 14px;
-    right: 14px;
+    top: max(14px, env(safe-area-inset-top));
+    right: max(14px, env(safe-area-inset-right));
 
     z-index: 9997;
 
-    padding:
-        7px 14px;
+    max-width: min(300px, calc(100vw - 28px));
 
-    border-radius: 999px;
-
-    background:
-        rgba(12,12,12,.86);
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
+    padding: 8px 15px;
 
     color: #fff;
 
     font-size: 11px;
+    font-weight: 650;
 
-    opacity: 0;
+    letter-spacing: .25px;
+
+    text-align: right;
+
+    background:
+        rgba(15,6,9,.88);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    border-radius: 999px;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.35),
+        0 0 18px rgba(255,23,68,.05);
 
     pointer-events: none;
 
+    opacity: 0;
+
+    transform:
+        translateY(-7px);
+
     transition:
-        .25s ease;
+        opacity .28s ease,
+        transform .28s ease;
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 #status.show {
     opacity: 1;
+    transform: translateY(0);
 }
 
 #status.ok {
-    color: #f87171;
+    color: #ff8093;
 }
 
 #status.warn {
-    color: #fb923c;
+    color: #ffad78;
 }
 
 #status.err {
@@ -799,27 +743,137 @@ video {
 
 
 /* =========================================================
-   DESKTOP
+   CUSTOM PLAYER BUTTONS
 ========================================================= */
 
-@media (min-width: 1200px) {
+.sp-btn {
+    height: 100%;
+    min-width: 38px;
 
-    .cx-header,
-    .cx-hero,
-    #ch-grid {
-        max-width: 1000px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    #ch-grid {
-        grid-template-columns:
-            repeat(
-                5,
-                1fr
-            );
+    gap: 5px;
 
-        gap: 14px;
-    }
+    padding: 0 9px !important;
 
+    color: #fff !important;
+
+    background: transparent !important;
+    border: none !important;
+
+    cursor: pointer !important;
+
+    opacity: .82;
+
+    transition:
+        opacity .18s ease,
+        transform .18s ease,
+        color .18s ease;
+}
+
+.sp-btn:hover {
+    opacity: 1;
+}
+
+.sp-btn:active {
+    transform: scale(.88);
+}
+
+.sp-btn:focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+.sp-btn svg {
+    width: 18px;
+    height: 18px;
+
+    display: block;
+
+    pointer-events: none;
+
+    flex-shrink: 0;
+}
+
+.sp-btn.active {
+    opacity: 1;
+    color: var(--red) !important;
+}
+
+.fit-ratio {
+    font-size: 10px;
+    font-weight: 750;
+
+    line-height: 1;
+
+    letter-spacing: .2px;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SHAKA PLAYER
+========================================================= */
+
+.shaka-video-container {
+    background: #000 !important;
+}
+
+.shaka-controls-container button {
+    color: #fff !important;
+}
+
+.shaka-controls-container .shaka-play-button,
+.shaka-controls-container .shaka-mute-button,
+.shaka-controls-container .shaka-volume-bar,
+.shaka-controls-container .shaka-fullscreen-button,
+.shaka-controls-container .shaka-overflow-menu-button {
+    color: var(--red) !important;
+}
+
+.shaka-controls-container
+.shaka-seek-bar
+.shaka-seek-bar-played {
+    background: var(--red) !important;
+}
+
+.shaka-controls-container
+.shaka-seek-bar
+.shaka-seek-bar-buffered {
+    background: #641522 !important;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+#channel-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+#channel-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#channel-list::-webkit-scrollbar-thumb {
+    background:
+        linear-gradient(
+            #3b171f,
+            #651525
+        );
+
+    border-radius: 20px;
+}
+
+#channel-list::-webkit-scrollbar-thumb:hover {
+    background: var(--red);
 }
 
 
@@ -827,28 +881,75 @@ video {
    TABLET
 ========================================================= */
 
-@media (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 1100px) {
 
-    .cx-header,
-    .cx-hero,
-    #ch-grid {
-        max-width: calc(
-            100% - 40px
-        );
-    }
-
-    .cx-hero h1 {
-        font-size: 60px;
+    #channel-list {
+        padding-left: 22px;
+        padding-right: 22px;
     }
 
     #ch-grid {
         grid-template-columns:
             repeat(
-                4,
-                1fr
+                auto-fill,
+                minmax(190px, 1fr)
             );
+
+        gap: 15px;
     }
 
+    .ch-card {
+        min-height: 150px;
+    }
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 1101px) {
+
+    #channel-list {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    #ch-grid {
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(215px, 1fr)
+            );
+
+        gap: 19px;
+    }
+
+    .ch-card {
+        min-height: 165px;
+    }
+
+    .ch-card .ch-name {
+        font-size: 14px;
+    }
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1500px) {
+
+    #ch-grid {
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(235px, 1fr)
+            );
+
+        gap: 21px;
+    }
 }
 
 
@@ -858,76 +959,135 @@ video {
 
 @media (max-width: 600px) {
 
-    .cx-header {
-        height: 65px;
-    }
-
-    .cx-brand {
-        font-size: 17px;
-    }
-
-    .cx-header-right {
-        gap: 4px;
-    }
-
-    .cx-live-pill,
-    .cx-counter-label {
-        display: none;
-    }
-
-    .cx-counter {
-        padding: 6px 8px;
-    }
-
-    .cx-join {
+    #channel-list {
         padding:
-            8px 13px;
-
-        font-size: 8px;
+            max(14px, env(safe-area-inset-top))
+            10px
+            max(20px, env(safe-area-inset-bottom));
     }
 
-    .cx-hero {
-        max-width:
-            calc(100% - 24px);
+    #channel-list h1 {
+        padding: 14px 10px;
 
-        padding-top: 42px;
-    }
+        margin-bottom: 16px;
 
-    .cx-hero h1 {
-        font-size: 48px;
+        font-size: 15px;
 
-        letter-spacing:
-            -2px;
-    }
-
-    .cx-search {
-        width: 215px;
+        letter-spacing: .5px;
     }
 
     #ch-grid {
-        max-width:
-            calc(100% - 24px);
-
         grid-template-columns:
-            repeat(2, 1fr);
+            repeat(2, minmax(0, 1fr));
 
-        gap: 9px;
+        gap: 10px;
+
+        padding-bottom: 20px;
     }
 
     .ch-card {
-        min-height: 125px;
+        min-height: 128px;
 
-        padding: 12px 7px;
+        padding: 13px 8px;
+
+        gap: 9px;
+
+        border-radius: 14px;
+
+        box-shadow:
+            0 8px 22px rgba(0,0,0,.30);
+    }
+
+    .ch-card:hover {
+        transform: translateY(-3px);
     }
 
     .ch-card .ch-logo,
     .ch-card .ch-placeholder {
-        width: 90px;
-        height: 48px;
+        width: 100%;
+        max-width: 105px;
+
+        height: 52px;
+
+        border-radius: 9px;
+    }
+
+    .ch-card .ch-name {
+        font-size: 11px;
+
+        letter-spacing: .1px;
+    }
+
+    .ch-card .ch-badge {
+        padding: 4px 8px;
+
+        font-size: 7.5px;
+
+        letter-spacing: .45px;
+    }
+
+    .sp-btn {
+        min-width: 34px;
+        padding: 0 6px !important;
+    }
+
+    .fit-ratio {
+        font-size: 9px;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    #channel-list {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+    #ch-grid {
+        gap: 8px;
+    }
+
+    .ch-card {
+        min-height: 118px;
+
+        padding:
+            11px 6px;
+    }
+
+    .ch-card .ch-logo,
+    .ch-card .ch-placeholder {
+        max-width: 92px;
+        height: 46px;
     }
 
     .ch-card .ch-name {
         font-size: 10px;
     }
 
+    .ch-card .ch-badge {
+        font-size: 7px;
+        padding: 3px 7px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
