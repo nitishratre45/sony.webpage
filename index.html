@@ -727,21 +727,35 @@ async function main(){
 }
 
 document.addEventListener("DOMContentLoaded",main);
+})();
+</script>
 
-    <!-- WATCHING COUNTER -->
+<!-- =====================================================
+     WATCHING COUNTER
+     ===================================================== -->
+
 <div id="watchingBox">
   <span class="liveDot"></span>
   <span id="watchingCount">500</span>
   <span>WATCHING</span>
 </div>
 
-<!-- TELEGRAM POPUP -->
+
+<!-- =====================================================
+     TELEGRAM POPUP
+     ===================================================== -->
+
 <div id="telegramPopup">
+
   <div class="telegramPopupBox">
 
-    <button id="closeTelegramPopup" type="button">×</button>
+    <button id="closeTelegramPopup" type="button">
+      ×
+    </button>
 
-    <div class="telegramIcon">✈️</div>
+    <div class="telegramIcon">
+      ✈️
+    </div>
 
     <h3>Join Our Telegram</h3>
 
@@ -759,127 +773,197 @@ document.addEventListener("DOMContentLoaded",main);
     </a>
 
   </div>
+
 </div>
 
 
+<!-- =====================================================
+     FIREBASE WATCHING + TELEGRAM
+     ===================================================== -->
+
 <script>
-/* =====================================================
-   LIVE WATCHING COUNTER
-   Base display = 500 + real active viewers
-   ===================================================== */
 
 (function () {
 
   const BASE_VIEWERS = 500;
 
-  const watchingCount = document.getElementById("watchingCount");
+  const watchingCount =
+    document.getElementById("watchingCount");
 
   if (!watchingCount) return;
 
-  // Current channel ID
-  const params = new URLSearchParams(window.location.search);
-  const channelId = params.get("id") || "default";
 
-  // Unique viewer ID for this browser tab
-  let viewerId = sessionStorage.getItem("criczone_viewer_id");
+  /* Current channel */
+
+  const params =
+    new URLSearchParams(window.location.search);
+
+  const channelId =
+    params.get("id") || "default";
+
+
+  /* Unique viewer ID */
+
+  let viewerId =
+    sessionStorage.getItem("criczone_viewer_id");
+
 
   if (!viewerId) {
+
     viewerId =
       "viewer_" +
       Date.now() +
       "_" +
-      Math.random().toString(36).substring(2, 10);
+      Math.random()
+        .toString(36)
+        .substring(2, 10);
 
-    sessionStorage.setItem("criczone_viewer_id", viewerId);
+    sessionStorage.setItem(
+      "criczone_viewer_id",
+      viewerId
+    );
+
   }
 
-  const viewerRef = firebase.database().ref(
-    "liveViewers/" + channelId + "/" + viewerId
-  );
 
-  // Mark viewer as active
+  /* Firebase viewer */
+
+  const viewerRef =
+    firebase.database().ref(
+      "liveViewers/" +
+      channelId +
+      "/" +
+      viewerId
+    );
+
+
   viewerRef.set({
+
     active: true,
-    timestamp: firebase.database.ServerValue.TIMESTAMP
+
+    timestamp:
+      firebase.database.ServerValue.TIMESTAMP
+
   });
 
-  // Remove viewer automatically when tab/browser disconnects
-  viewerRef.onDisconnect().remove();
 
-  // Count active viewers
-  const viewersRef = firebase.database().ref(
-    "liveViewers/" + channelId
+  /* Remove when user leaves */
+
+  viewerRef
+    .onDisconnect()
+    .remove();
+
+
+  /* Count viewers */
+
+  const viewersRef =
+    firebase.database().ref(
+      "liveViewers/" + channelId
+    );
+
+
+  viewersRef.on(
+    "value",
+    function (snapshot) {
+
+      const realViewers =
+        snapshot.exists()
+          ? snapshot.numChildren()
+          : 0;
+
+
+      const displayCount =
+        BASE_VIEWERS + realViewers;
+
+
+      watchingCount.textContent =
+        displayCount.toLocaleString("en-IN");
+
+    }
   );
-
-  viewersRef.on("value", function (snapshot) {
-
-    const realViewers = snapshot.exists()
-      ? snapshot.numChildren()
-      : 0;
-
-    const displayCount = BASE_VIEWERS + realViewers;
-
-    watchingCount.textContent =
-      displayCount.toLocaleString("en-IN");
-  });
 
 })();
 
 
+
 /* =====================================================
    TELEGRAM POPUP
-   Opens after video actually starts playing
    ===================================================== */
 
 (function () {
 
-  const popup = document.getElementById("telegramPopup");
-  const closeBtn = document.getElementById("closeTelegramPopup");
+  const popup =
+    document.getElementById(
+      "telegramPopup"
+    );
+
+  const closeBtn =
+    document.getElementById(
+      "closeTelegramPopup"
+    );
+
 
   if (!popup) return;
 
-  // Don't show repeatedly in the same browser session
-  const alreadyShown =
-    sessionStorage.getItem("telegram_popup_shown");
 
   function showTelegramPopup() {
 
-    if (sessionStorage.getItem("telegram_popup_shown")) {
+    if (
+      sessionStorage.getItem(
+        "telegram_popup_shown"
+      )
+    ) {
       return;
     }
+
 
     sessionStorage.setItem(
       "telegram_popup_shown",
       "1"
     );
 
+
     popup.classList.add("show");
+
   }
+
 
   function closeTelegramPopup() {
+
     popup.classList.remove("show");
+
   }
 
+
   if (closeBtn) {
+
     closeBtn.addEventListener(
       "click",
       closeTelegramPopup
     );
+
   }
 
-  popup.addEventListener("click", function (e) {
 
-    if (e.target === popup) {
-      closeTelegramPopup();
+  popup.addEventListener(
+    "click",
+    function (e) {
+
+      if (e.target === popup) {
+
+        closeTelegramPopup();
+
+      }
+
     }
+  );
 
-  });
 
+  /* Existing video */
 
-  /*
-   * Your existing video element
-   */
-  const video = document.getElementById("v");
+  const video =
+    document.getElementById("v");
+
 
   if (video) {
 
@@ -887,10 +971,10 @@ document.addEventListener("DOMContentLoaded",main);
       "playing",
       function () {
 
-        // Small delay after playback actually begins
-        setTimeout(function () {
-          showTelegramPopup();
-        }, 1500);
+        setTimeout(
+          showTelegramPopup,
+          1500
+        );
 
       },
       { once: true }
@@ -899,8 +983,9 @@ document.addEventListener("DOMContentLoaded",main);
   }
 
 })();
+
 </script>
-</script>
+
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"06b2fe659e6b49198fa257db10c270b8","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
