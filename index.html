@@ -181,11 +181,19 @@
 </div>
 
 <div id="pc">
-  <video id="v" playsinline webkit-playsinline
-    preload="none" x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
-</div>
 
-    <cricxcrate-ui></cricxcrate-ui>
+  <video id="v" playsinline webkit-playsinline
+    preload="none"
+    x5-video-player-type="h5"
+    x5-video-player-fullscreen="true"></video>
+
+  <div id="watchingBox">
+    <span class="liveDot"></span>
+    <span id="watchingCount">500</span>
+    <span>WATCHING</span>
+  </div>
+
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.16.2/dist/shaka-player.ui.min.js"></script>
 <script>
@@ -734,23 +742,6 @@ document.addEventListener("DOMContentLoaded",main);
      WATCHING COUNTER
      ===================================================== -->
 
-<div id="pc">
-
-  <video id="v"
-    playsinline
-    webkit-playsinline
-    preload="none"
-    x5-video-player-type="h5"
-    x5-video-player-fullscreen="true">
-  </video>
-
-  <div id="watchingBox">
-    <span class="liveDot"></span>
-    <span id="watchingCount">500</span>
-    <span>WATCHING</span>
-  </div>
-
-</div>
 
 
 <!-- =====================================================
@@ -995,7 +986,64 @@ document.addEventListener("DOMContentLoaded",main);
   }
 
 })();
+/* =====================================================
+   WATCHING FULLSCREEN FIX
+   ===================================================== */
 
+(function () {
+
+  const box = document.getElementById("watchingBox");
+  const pc = document.getElementById("pc");
+
+  if (!box || !pc) return;
+
+
+  function updateWatchingPosition() {
+
+    const fullscreenElement =
+      document.fullscreenElement ||
+      document.webkitFullscreenElement;
+
+    if (fullscreenElement) {
+
+      fullscreenElement.appendChild(box);
+
+    } else {
+
+      pc.appendChild(box);
+
+    }
+
+  }
+
+
+  document.addEventListener(
+    "fullscreenchange",
+    updateWatchingPosition
+  );
+
+  document.addEventListener(
+    "webkitfullscreenchange",
+    updateWatchingPosition
+  );
+
+
+  window.addEventListener(
+    "orientationchange",
+    function () {
+
+      setTimeout(
+        updateWatchingPosition,
+        300
+      );
+
+    }
+  );
+
+
+  updateWatchingPosition();
+
+})();
 </script>
 
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"06b2fe659e6b49198fa257db10c270b8","r":1,"spa":2}' crossorigin="anonymous"></script>
