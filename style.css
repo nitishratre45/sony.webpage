@@ -2023,3 +2023,425 @@ video.mode-cover {
         scroll-behavior: auto !important;
     }
 }
+/* =====================================================
+   WATCHING COUNTER
+   ===================================================== */
+
+#watchingBox {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+
+  z-index: 9998;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 8px 13px;
+
+  background: rgba(0, 0, 0, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 20px;
+
+  color: #fff;
+
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.35);
+}
+
+#watchingCount {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+
+  background: #ff3030;
+
+  border-radius: 50%;
+
+  animation: livePulse 1.3s infinite;
+}
+
+@keyframes livePulse {
+
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(0.75);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+
+
+/* =====================================================
+   TELEGRAM POPUP
+   ===================================================== */
+
+#telegramPopup {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 10000;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(0, 0, 0, 0.72);
+
+  backdrop-filter: blur(6px);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+}
+
+#telegramPopup.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.telegramPopupBox {
+
+  position: relative;
+
+  width: min(380px, 100%);
+
+  padding: 30px 24px 25px;
+
+  text-align: center;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #241010,
+      #100707
+    );
+
+  border: 1px solid rgba(255, 70, 70, 0.25);
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.65);
+
+  transform: translateY(15px) scale(0.96);
+
+  transition: transform 0.25s ease;
+}
+
+#telegramPopup.show .telegramPopupBox {
+  transform: translateY(0) scale(1);
+}
+
+.telegramIcon {
+
+  width: 55px;
+  height: 55px;
+
+  margin: 0 auto 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #229ED9;
+
+  font-size: 27px;
+
+  box-shadow:
+    0 8px 25px rgba(34, 158, 217, 0.3);
+}
+
+.telegramPopupBox h3 {
+
+  margin: 0 0 8px;
+
+  color: #fff;
+
+  font-size: 21px;
+}
+
+.telegramPopupBox p {
+
+  margin: 0 auto 20px;
+
+  max-width: 300px;
+
+  color: #bdbdbd;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+#telegramJoinBtn {
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 180px;
+
+  padding: 12px 20px;
+
+  border-radius: 10px;
+
+  background: #229ED9;
+
+  color: #fff;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  transition: transform 0.2s ease,
+              opacity 0.2s ease;
+}
+
+#telegramJoinBtn:hover {
+
+  transform: translateY(-2px);
+
+  opacity: 0.9;
+}
+
+#closeTelegramPopup {
+
+  position: absolute;
+
+  top: 10px;
+  right: 12px;
+
+  width: 32px;
+  height: 32px;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.08);
+
+  color: #fff;
+
+  font-size: 22px;
+
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  #watchingBox {
+    top: 12px;
+    left: 12px;
+
+    padding: 7px 11px;
+
+    font-size: 10px;
+  }
+
+  #watchingCount {
+    font-size: 11px;
+  }
+
+  .telegramPopupBox {
+    padding: 27px 20px 22px;
+  }
+
+}
+/* =====================================================
+   LIVE WATCHING — PORTRAIT + LANDSCAPE
+   ===================================================== */
+
+#watchingBox {
+  position: fixed;
+
+  /* Always stay inside the visible viewport */
+  top: max(10px, env(safe-area-inset-top));
+  left: max(10px, env(safe-area-inset-left));
+
+  z-index: 9998;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 8px 13px;
+
+  background: rgba(0, 0, 0, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  border-radius: 20px;
+
+  color: #fff;
+
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+
+  /* Prevent accidental movement during rotation */
+  transform: none;
+}
+
+#watchingCount {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+
+  flex: 0 0 7px;
+
+  background: #ff3030;
+
+  border-radius: 50%;
+
+  animation: livePulse 1.3s infinite;
+}
+
+@keyframes livePulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(0.75);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* =====================================================
+   MOBILE PORTRAIT
+   ===================================================== */
+
+@media screen and (max-width: 600px) and (orientation: portrait) {
+
+  #watchingBox {
+    top: max(8px, env(safe-area-inset-top));
+    left: max(8px, env(safe-area-inset-left));
+
+    padding: 7px 10px;
+
+    font-size: 10px;
+  }
+
+  #watchingCount {
+    font-size: 11px;
+  }
+
+  .liveDot {
+    width: 6px;
+    height: 6px;
+    flex-basis: 6px;
+  }
+}
+
+
+/* =====================================================
+   MOBILE LANDSCAPE / ROTATED PHONE
+   ===================================================== */
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+
+  #watchingBox {
+    top: max(8px, env(safe-area-inset-top));
+    left: max(8px, env(safe-area-inset-left));
+
+    padding: 6px 10px;
+
+    font-size: 10px;
+
+    /* Keep it above the video */
+    z-index: 99999;
+  }
+
+  #watchingCount {
+    font-size: 11px;
+  }
+
+  .liveDot {
+    width: 6px;
+    height: 6px;
+    flex-basis: 6px;
+  }
+}
+
+
+/* =====================================================
+   VERY SMALL LANDSCAPE SCREEN
+   ===================================================== */
+
+@media screen and (max-height: 400px) and (orientation: landscape) {
+
+  #watchingBox {
+    top: 6px;
+    left: 8px;
+
+    padding: 5px 8px;
+
+    font-size: 9px;
+  }
+
+  #watchingCount {
+    font-size: 10px;
+  }
+
+  .liveDot {
+    width: 5px;
+    height: 5px;
+    flex-basis: 5px;
+  }
+}
