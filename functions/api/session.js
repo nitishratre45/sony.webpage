@@ -1,27 +1,78 @@
-export default async function handler(req, res) {
+export async function onRequest(context) {
   try {
-    const response = await fetch(process.env.COOKIE_API, {
-      cache: "no-store",
+    const cookieApi = context.env.COOKIE_API;
+
+    if (!cookieApi) {
+      return new Response(
+        JSON.stringify({
+          error: "COOKIE_API environment variable is missing"
+        }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-store"
+          }
+        }
+      );
+    }
+
+    const response = await fetch(cookieApi, {
+      method: "GET",
       headers: {
         "Accept": "application/json"
+      },
+      cf: {
+        cacheTtl: 0
       }
     });
 
+    const contentType = response.headers.get("content-type") || "";
+
     if (!response.ok) {
-      return res.status(response.status).json({
-        error: "Session API request failed"
-      });
+      return new Response(
+        JSON.stringify({
+          error: "Session API request failed",
+          upstreamStatus: response.status
+        }),
+        {
+          status: response.status,
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-store"
+          }
+        }
+      );
     }
 
-    const data = await response.json();
+    // Keep the upstream response as JSON/text without forcing JSON parsing.
+    // This prevents an HTML upstream error page from becoming an
+    // "Unexpected token <" error in the browser.
+    const body = await response.text();
 
-    return res.status(200).json(data);
+    return new Response(body, {
+      status: 200,
+      headers: {
+        "Content-Type": contentType || "application/json",
+        "Cache-Control": "no-store"
+      }
+    });
 
   } catch (error) {
-    console.error(error);
+    console.error("Session API error:", error);
 
-    return res.status(500).json({
-      error: "Backend error"
-    });
+    return new Response(
+      JSON.stringify({
+        error: "Backend error",
+        message: error instanceof Error ? error.message : String(error)
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-store"
+        }
+      }
+    );
   }
 }
