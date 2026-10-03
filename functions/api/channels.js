@@ -1,22 +1,60 @@
-export default async function handler(req, res) {
+export async function onRequest(context) {
   try {
-    const response = await fetch(process.env.UPSTREAM_API);
+    const upstreamUrl = context.env.UPSTREAM_API;
 
-    if (!response.ok) {
-      return res.status(response.status).json({
-        error: "Failed to fetch channel data"
-      });
+    if (!upstreamUrl) {
+      return new Response(
+        JSON.stringify({
+          error: "UPSTREAM_API environment variable is missing"
+        }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
     }
 
-    const data = await response.json();
+    const response = await fetch(upstreamUrl);
 
-    return res.status(200).json(data);
+    if (!response.ok) {
+      return new Response(
+        JSON.stringify({
+          error: "Failed to fetch channel data",
+          upstreamStatus: response.status
+        }),
+        {
+          status: response.status,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+    }
+
+    const data = await response.text();
+
+    return new Response(data, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store"
+      }
+    });
 
   } catch (error) {
-    console.error(error);
-
-    return res.status(500).json({
-      error: "Backend error"
-    });
+    return new Response(
+      JSON.stringify({
+        error: "Backend error",
+        message: error.message
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
   }
 }
