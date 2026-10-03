@@ -21,13 +21,8 @@ export async function onRequest(context) {
       method: "GET",
       headers: {
         "Accept": "application/json"
-      },
-      cf: {
-        cacheTtl: 0
       }
     });
-
-    const contentType = response.headers.get("content-type") || "";
 
     if (!response.ok) {
       return new Response(
@@ -45,15 +40,13 @@ export async function onRequest(context) {
       );
     }
 
-    // Keep the upstream response as JSON/text without forcing JSON parsing.
-    // This prevents an HTML upstream error page from becoming an
-    // "Unexpected token <" error in the browser.
     const body = await response.text();
 
     return new Response(body, {
       status: 200,
       headers: {
-        "Content-Type": contentType || "application/json",
+        "Content-Type":
+          response.headers.get("content-type") || "application/json",
         "Cache-Control": "no-store"
       }
     });
@@ -64,7 +57,9 @@ export async function onRequest(context) {
     return new Response(
       JSON.stringify({
         error: "Backend error",
-        message: error instanceof Error ? error.message : String(error)
+        message: error instanceof Error
+          ? error.message
+          : String(error)
       }),
       {
         status: 500,
