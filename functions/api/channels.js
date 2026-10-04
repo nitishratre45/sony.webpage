@@ -1,60 +1,144 @@
 export async function onRequest(context) {
-  try {
-    const upstreamUrl = context.env.UPSTREAM_API;
-
-    if (!upstreamUrl) {
-      return new Response(
-        JSON.stringify({
-          error: "UPSTREAM_API environment variable is missing"
-        }),
-        {
-          status: 500,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
-    }
-
-    const response = await fetch(upstreamUrl);
-
-    if (!response.ok) {
-      return new Response(
-        JSON.stringify({
-          error: "Failed to fetch channel data",
-          upstreamStatus: response.status
-        }),
-        {
-          status: response.status,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
-    }
-
-    const data = await response.text();
-
-    return new Response(data, {
-      status: 200,
+  const json = (data, status = 200) =>
+    new Response(JSON.stringify(data), {
+      status,
       headers: {
         "Content-Type": "application/json",
         "Cache-Control": "no-store"
       }
     });
 
-  } catch (error) {
-    return new Response(
-      JSON.stringify({
-        error: "Backend error",
-        message: error.message
-      }),
-      {
-        status: 500,
+  try {
+    const upstreamUrl = context.env.UPSTREAM_API;
+
+    // Check environment variable
+    if (!upstreamUrl) {
+      return json(
+        {
+          error: "UPSTREAM_API_MISSING",
+          message: "UPSTREAM_API environment variable is not configured."
+        },
+        500
+      );
+    }
+
+    // Validate URL
+    let url;
+
+    try {
+      url = new URL(upstreamUrl);
+    } catch {
+      return json(
+        {
+          error: "INVALID_UPSTREAM_URL",
+          message: "UPSTREAM_API is not a valid URL."
+        },
+        500
+      );
+    }
+
+    // Fetch upstream
+    let response;
+
+    try {
+      response = await fetch(url.toString(), {
+        method: "GET",
         headers: {
-          "Content-Type": "application/json"
+          "Accept": "application/json",
+          "User-Agent": "CricZone-Channel-API/1.0"
+        },
+        redirect: "follow",
+        cf: {
+          cacheTtl: 0,
+          cacheEverything: false
         }
+      });
+    } catch (error) {
+      console.error("UPSTREAM FETCH ERROR:", error);
+
+      return json(
+        {
+          error: "UPSTREAM_FETCH_FAILED",
+          message:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          upstream: url.hostname
+        },
+        502
+      );
+    }
+
+    // Upstream returned an HTTP error
+    if (!response.ok) {
+      const body = await response.text();
+
+      console.error(
+        "UPSTREAM HTTP ERROR:",
+        response.status,
+        body.slice(0, 500)
+      );
+
+      return json(
+        {
+          error: "UPSTREAM_HTTP_ERROR",
+          upstreamStatus: response.status,
+          upstreamStatusText: response.statusText,
+          upstream: url.hostname,
+          responsePreview: body.slice(0, 500)
+        },
+        502
+      );
+    }
+
+    // Read response
+    const data = await response.text();
+
+    if (!data || !data.trim()) {
+      return json(
+        {
+          error: "EMPTY_UPSTREAM_RESPONSE"
+        },
+        502
+      );
+    }
+
+    // Validate JSON
+    try {
+      JSON.parse(data);
+    } catch {
+      return json(
+        {
+          error: "INVALID_JSON_FROM_UPSTREAM",
+          responsePreview: data.slice(0, 500)
+        },
+        502
+      );
+    }
+
+    // Return channel data
+    return new Response(data, {
+      status: 200,
+      headers: {
+        "Content-Type":
+          response.headers.get("content-type") ||
+          "application/json",
+        "Cache-Control": "no-store"
       }
+    });
+
+  } catch (error) {
+    console.error("CHANNEL API ERROR:", error);
+
+    return json(
+      {
+        error: "CHANNEL_API_ERROR",
+        message:
+          error instanceof Error
+            ? error.message
+            : String(error)
+      },
+      500
     );
   }
 }
