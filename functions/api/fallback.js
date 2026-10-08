@@ -1,25 +1,37 @@
 export async function onRequest(context) {
-  const json = (data, status = 200) => new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "s-maxage=10, stale-while-revalidate=30"
-    }
-  });
+  const fallback = context.env.API_FALLBACK;
 
   try {
-    const upstream = context.env.API_FALLBACK || context.env.UPSTREAM_API;
-    if (!upstream) return json({ error: "API_FALLBACK_MISSING" }, 500);
+    if (!fallback) throw new Error("API_FALLBACK missing");
 
-    const response = await fetch(upstream, {
-      headers: { Accept: "application/json" },
-      redirect: "follow"
+    const response = await fetch(fallback);
+
+    if (!response.ok) {
+      throw new Error("Fallback API failed");
+    }
+
+    const data = await response.json();
+
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "s-maxage=10, stale-while-revalidate=30"
+      }
     });
 
-    if (!response.ok) return json({ error: "Fallback API failed", status: response.status }, response.status);
-
-    return json(await response.json());
   } catch (error) {
-    return json({ error: "Fallback API error", message: error instanceof Error ? error.message : String(error) }, 500);
+    return new Response(
+      JSON.stringify({
+        error: "Fallback API error",
+        message: error.message
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
   }
 }
