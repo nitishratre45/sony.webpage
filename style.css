@@ -1,3005 +1,391 @@
 /* =========================================================
-
+   CRICZONE SONY — FRESH UI
+   Complete visual redesign. Player/API behaviour untouched.
 ========================================================= */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html,
-body {
-    width: 100%;
-    min-height: 100%;
-    background: #070306;
-    color: #fff;
-    font-family:
-        Inter,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-}
-
-body {
-    overflow-x: hidden;
-}
-
-
-/* =========================================================
-   MAIN HOME
-========================================================= */
-
-#channel-list {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-
-    display: none;
-    flex-direction: column;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    background:
-        radial-gradient(
-            circle at 50% 20%,
-            rgba(120, 0, 30, .20),
-            transparent 35%
-        ),
-        linear-gradient(
-            135deg,
-            #080306 0%,
-            #120408 45%,
-            #070305 100%
-        );
-
-    padding:
-        0
-        0
-        60px;
-}
-
-
-/* =========================================================
-   BACKGROUND DECORATION
-========================================================= */
-
-#channel-list::before {
-    content: "";
-
-    position: fixed;
-    inset: 0;
-
-    pointer-events: none;
-
-    opacity: .45;
-
-    background:
-        repeating-linear-gradient(
-            0deg,
-            transparent 0,
-            transparent 58px,
-            rgba(255, 0, 60, .035) 59px,
-            transparent 60px
-        );
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.cx-header {
-    position: sticky;
-    top: 0;
-
-    z-index: 50;
-
-    width: 100%;
-    max-width: 1000px;
-
-    margin: 0 auto;
-
-    height: 78px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 0;
-
-    background: rgba(8, 3, 6, .88);
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-}
-
-
-/* =========================================================
-   BRAND
-========================================================= */
-
-.cx-brand {
-    font-size: 22px;
-    font-weight: 900;
-
-    letter-spacing: .5px;
-
-    color: #fff;
-
-    text-shadow:
-        0 0 18px rgba(255, 40, 70, .12);
-}
-
-
-/* =========================================================
-   HEADER RIGHT
-========================================================= */
-
-.cx-header-right {
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-}
-
-
-/* ON AIR */
-
-.cx-live-pill {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-
-    padding: 7px 12px;
-
-    border:
-        1px solid
-        rgba(255, 50, 80, .35);
-
-    border-radius: 999px;
-
-    background:
-        rgba(255, 20, 60, .05);
-
-    color: #ff526b;
-
-    font-size: 8px;
-    font-weight: 800;
-
-    letter-spacing: 1.5px;
-}
-
-.cx-live-dot {
-    width: 5px;
-    height: 5px;
-
-    border-radius: 50%;
-
-    background: #ff3154;
-
-    box-shadow:
-        0 0 8px #ff3154;
-}
-
-
-/* COUNTER */
-
-.cx-counter {
-    min-width: 36px;
-
-    padding: 7px 10px;
-
-    border-radius: 999px;
-
-    background: #ff304f;
-
-    text-align: center;
-
-    font-size: 8px;
-    font-weight: 900;
-}
-
-.cx-counter-label {
-    font-size: 7px;
-    color: #999;
-
-    letter-spacing: 1px;
-}
-
-
-/* JOIN */
-
-.cx-join {
-    border: 0;
-
-    padding: 10px 19px;
-
-    border-radius: 999px;
-
-    background: #fff;
-
-    color: #0b0709;
-
-    font-size: 10px;
-    font-weight: 900;
-
-    cursor: pointer;
-
-    transition:
-        transform .2s ease,
-        background .2s ease;
-}
-
-.cx-join:hover {
-    transform: translateY(-2px);
-    background: #f2f2f2;
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.cx-hero {
-    position: relative;
-
-    width: 100%;
-    max-width: 1000px;
-
-    margin: 0 auto;
-
-    padding:
-        72px 0
-        18px;
-}
-
-
-/* =========================================================
-   KICKER
-========================================================= */
-
-.cx-kicker {
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
-
-    margin-bottom: 12px;
-
-    color: #ff304f;
-
-    font-size: 12px;
-    font-weight: 900;
-
-    letter-spacing: 2px;
-}
-
-.cx-kicker span {
-    width: 21px;
-    height: 2px;
-
-    background: #ff304f;
-
-    box-shadow:
-        0 0 10px rgba(255, 48, 79, .45);
-}
-
-
-/* =========================================================
-   MAIN TITLE
-========================================================= */
-
-.cx-hero h1 {
-    position: relative;
-
-    max-width: 650px;
-
-    font-size: clamp(
-        50px,
-        7vw,
-        82px
-    );
-
-    line-height: .91;
-
-    font-weight: 950;
-
-    letter-spacing: -3px;
-
-    color: #fff;
-}
-
-.cx-hero h1 strong {
-    display: block;
-
-    color: #ff304f;
-
-    font-weight: 950;
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-.cx-search {
-    position: relative;
-
-    width: 215px;
-
-    margin-top: 17px;
-}
-
-.cx-search svg {
-    position: absolute;
-
-    left: 11px;
-    top: 50%;
-
-    width: 13px;
-    height: 13px;
-
-    transform:
-        translateY(-50%);
-
-    stroke: #777;
-
-    fill: none;
-
-    stroke-width: 2;
-}
-
-.cx-search input {
-    width: 100%;
-
-    height: 30px;
-
-    padding:
-        0
-        12px
-        0
-        31px;
-
-    outline: none;
-
-    border:
-        1px solid
-        rgba(255, 48, 79, .38);
-
-    border-radius: 999px;
-
-    background:
-        rgba(0, 0, 0, .18);
-
-    color: #fff;
-
-    font-size: 9px;
-}
-
-.cx-search input::placeholder {
-    color: #777;
-}
-
-.cx-search input:focus {
-    border-color: #ff304f;
-
-    box-shadow:
-        0 0 18px
-        rgba(255, 48, 79, .10);
-}
-
-
-/* =========================================================
-   CATEGORY BAR
-========================================================= */
-
-.cx-categories {
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    width: 100%;
-
-    margin-top: 13px;
-
-    overflow-x: auto;
-
-    scrollbar-width: none;
-}
-
-.cx-categories::-webkit-scrollbar {
-    display: none;
-}
-
-
-.cx-category {
-    flex-shrink: 0;
-
-    padding:
-        7px
-        14px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, .10);
-
-    border-radius: 999px;
-
-    background:
-        rgba(255, 255, 255, .025);
-
-    color: #ddd;
-
-    font-size: 9px;
-    font-weight: 700;
-
-    white-space: nowrap;
-
-    cursor: pointer;
-
-    transition:
-        .2s ease;
-}
-
-.cx-category:hover,
-.cx-category.active {
-    color: #fff;
-
-    border-color:
-        rgba(255, 48, 79, .8);
-
-    background:
-        #ff304f;
-
-    box-shadow:
-        0 4px 18px
-        rgba(255, 48, 79, .18);
-}
-
-
-/* =========================================================
-   RED LINE
-========================================================= */
-
-.cx-red-line {
-    width: 100%;
-    height: 4px;
-
-    margin-top: 13px;
-
-    border-radius: 999px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #ff304f 0%,
-            #ff304f 92%,
-            rgba(255,255,255,.05) 92%
-        );
-
-    box-shadow:
-        0 0 10px
-        rgba(255, 48, 79, .15);
-}
-
-
-/* =========================================================
-   CHANNEL GRID
-========================================================= */
-
-#ch-grid {
-    position: relative;
-    z-index: 2;
-
-    width: 100%;
-    max-width: 1000px;
-
-    margin: 18px auto 0;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fill,
-            minmax(160px, 1fr)
-        );
-
-    gap: 12px;
-}
-
-
-/* =========================================================
-   CHANNEL CARD
-========================================================= */
-
-.ch-card {
-    position: relative;
-
-    min-height: 145px;
-
-    padding: 17px 13px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 10px;
-
-    text-align: center;
-
-    text-decoration: none;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.055),
-            rgba(255,255,255,.015)
-        );
-
-    border:
-        1px solid
-        rgba(255,255,255,.075);
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0,0,0,.30);
-
-    transition:
-        transform .2s ease,
-        border-color .2s ease,
-        background .2s ease;
-}
-
-.ch-card:hover {
-    transform:
-        translateY(-4px);
-
-    border-color:
-        rgba(255, 48, 79, .45);
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,48,79,.09),
-            rgba(255,255,255,.02)
-        );
-}
-
-
-/* =========================================================
-   LOGO
-========================================================= */
-
-.ch-card .ch-logo,
-.ch-card .ch-placeholder {
-    width: 100px;
-    height: 55px;
-
-    object-fit: contain;
-
-    padding: 5px;
-
-    border-radius: 9px;
-
-    background:
-        rgba(255,255,255,.035);
-}
-
-.ch-card .ch-placeholder {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    color: #aaa;
-
-    font-size: 13px;
-    font-weight: 800;
-}
-
-
-/* =========================================================
-   NAME
-========================================================= */
-
-.ch-card .ch-name {
-    max-width: 100%;
-
-    color: #eee;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    line-height: 1.3;
-}
-
-
-/* =========================================================
-   BADGE
-========================================================= */
-
-.ch-card .ch-badge {
-    padding:
-        4px
-        10px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.06);
-
-    border-radius: 999px;
-
-    background:
-        rgba(255,255,255,.05);
-
-    color: #999;
-
-    font-size: 8px;
-    font-weight: 700;
-
-    letter-spacing: .7px;
-
-    text-transform: uppercase;
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-#channel-list::-webkit-scrollbar {
-    width: 5px;
-}
-
-#channel-list::-webkit-scrollbar-thumb {
-    background: #351017;
-    border-radius: 20px;
-}
-
-
-/* =========================================================
-   PLAYER
-   EXISTING PLAYER BEHAVIOUR PRESERVED
-========================================================= */
-
-#pc {
-    position: fixed;
-    inset: 0;
-
-    z-index: 100;
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    background: #000;
-}
-
-video {
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    background: #000;
-}
-
-
-/* =========================================================
-   OVERLAY
-========================================================= */
-
-#overlay {
-    position: fixed;
-    inset: 0;
-
-    z-index: 9999;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-direction: column;
-
-    gap: 18px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #151515 0%,
-            #080808 45%,
-            #030303 100%
-        );
-}
-
-#overlay svg {
-    animation:
-        spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-#overlay p {
-    color: #999;
-
-    font-size: 13px;
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-#status {
-    position: fixed;
-
-    top: 14px;
-    right: 14px;
-
-    z-index: 9997;
-
-    padding:
-        7px 14px;
-
-    border-radius: 999px;
-
-    background:
-        rgba(12,12,12,.86);
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-
-    color: #fff;
-
-    font-size: 11px;
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    transition:
-        .25s ease;
-}
-
-#status.show {
-    opacity: 1;
-}
-
-#status.ok {
-    color: #f87171;
-}
-
-#status.warn {
-    color: #fb923c;
-}
-
-#status.err {
-    color: #ff6b6b;
-}
-
-
-/* =========================================================
-   DESKTOP
-========================================================= */
-
-@media (min-width: 1200px) {
-
-    .cx-header,
-    .cx-hero,
-    #ch-grid {
-        max-width: 1000px;
-    }
-
-    #ch-grid {
-        grid-template-columns:
-            repeat(
-                5,
-                1fr
-            );
-
-        gap: 14px;
-    }
-
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 900px) {
-
-    .cx-header,
-    .cx-hero,
-    #ch-grid {
-        max-width: calc(
-            100% - 40px
-        );
-    }
-
-    .cx-hero h1 {
-        font-size: 60px;
-    }
-
-    #ch-grid {
-        grid-template-columns:
-            repeat(
-                4,
-                1fr
-            );
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .cx-header {
-        height: 65px;
-    }
-
-    .cx-brand {
-        font-size: 17px;
-    }
-
-    .cx-header-right {
-        gap: 4px;
-    }
-
-    .cx-live-pill,
-    .cx-counter-label {
-        display: none;
-    }
-
-    .cx-counter {
-        padding: 6px 8px;
-    }
-
-    .cx-join {
-        padding:
-            8px 13px;
-
-        font-size: 8px;
-    }
-
-    .cx-hero {
-        max-width:
-            calc(100% - 24px);
-
-        padding-top: 42px;
-    }
-
-    .cx-hero h1 {
-        font-size: 48px;
-
-        letter-spacing:
-            -2px;
-    }
-
-    .cx-search {
-        width: 215px;
-    }
-
-    #ch-grid {
-        max-width:
-            calc(100% - 24px);
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-        gap: 9px;
-    }
-
-    .ch-card {
-        min-height: 125px;
-
-        padding: 12px 7px;
-    }
-
-    .ch-card .ch-logo,
-    .ch-card .ch-placeholder {
-        width: 90px;
-        height: 48px;
-    }
-
-    .ch-card .ch-name {
-        font-size: 10px;
-    }
-
-}
-
-/* =========================================================
-   CRICXCRATE PREMIUM UI
-   Modern • Smooth • Responsive • Lightweight
-========================================================= */
-
-:root {
-    --bg: #070306;
-    --bg-2: #10050a;
-    --card: rgba(255,255,255,.045);
-    --card-hover: rgba(255,255,255,.075);
-
-    --red: #ff1744;
-    --red-2: #ff3b55;
-    --red-soft: rgba(255,23,68,.16);
-
-    --text: #fff7f8;
-    --muted: #a99da1;
-    --border: rgba(255,255,255,.085);
-
-    --radius: 18px;
-}
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-    background: var(--bg);
-    color: var(--text);
-
-    font-family:
-        Inter,
-        "Segoe UI",
-        Roboto,
-        Helvetica,
-        Arial,
-        sans-serif;
-
-    -webkit-user-select: none;
-    user-select: none;
-
-    -webkit-tap-highlight-color: transparent;
-
-    scroll-behavior: smooth;
-}
-
-
-/* =========================================================
-   BODY BACKGROUND
-========================================================= */
-
-body {
-    overflow: hidden;
-
-    background:
-        radial-gradient(
-            circle at 50% -10%,
-            rgba(255,23,68,.12),
-            transparent 38%
-        ),
-        radial-gradient(
-            circle at 0% 60%,
-            rgba(255,23,68,.055),
-            transparent 32%
-        ),
-        linear-gradient(
-            145deg,
-            #050204 0%,
-            #0b0307 45%,
-            #050204 100%
-        );
-}
-
-
-/* =========================================================
-   PREMIUM AMBIENT BACKGROUND
-========================================================= */
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-
-    pointer-events: none;
-    z-index: -1;
-
-    opacity: .45;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent 0,
-            rgba(255,23,68,.035) 50%,
-            transparent 100%
-        );
-
-    animation: ambientMove 10s ease-in-out infinite alternate;
-}
-
-@keyframes ambientMove {
-    from {
-        transform: translateX(-2%);
-        opacity: .30;
-    }
-
-    to {
-        transform: translateX(2%);
-        opacity: .55;
-    }
-}
-
-
-/* =========================================================
-   LOADING OVERLAY
-========================================================= */
-
-#overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 18px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #17070d 0%,
-            #080306 48%,
-            #030102 100%
-        );
-
-    animation: overlayFade .35s ease;
-}
-
-@keyframes overlayFade {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-#overlay svg {
-    width: 44px;
-    height: 44px;
-
-    animation: spin 1s linear infinite;
-
-    filter:
-        drop-shadow(0 0 8px rgba(255,23,68,.45))
-        drop-shadow(0 0 24px rgba(255,23,68,.18));
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-#overlay p {
-    color: #b8aeb2;
-
-    font-size: 13px;
-    font-weight: 500;
-
-    letter-spacing: .5px;
-
-    text-align: center;
-    padding: 0 24px;
-}
-
-
-/* =========================================================
-   CHANNEL LIST / HOME
-========================================================= */
-
-#channel-list {
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-
-    display: none;
-    flex-direction: column;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    padding:
-        max(22px, env(safe-area-inset-top))
-        max(14px, 3vw)
-        max(28px, env(safe-area-inset-bottom));
-
-    background:
-        radial-gradient(
-            circle at 50% -15%,
-            rgba(255,23,68,.10),
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 100% 55%,
-            rgba(255,23,68,.045),
-            transparent 30%
-        ),
-        linear-gradient(
-            145deg,
-            #080305,
-            #110408 48%,
-            #060204
-        );
-
-    animation: pageEnter .55s cubic-bezier(.22,.61,.36,1);
-}
-
-@keyframes pageEnter {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* =========================================================
-   TOP TITLE
-========================================================= */
-
-#channel-list h1 {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-
-    width: 100%;
-
-    margin: 0 auto 24px;
-    padding: 17px 18px;
-
-    color: #fff;
-
-    font-size: clamp(16px, 2vw, 21px);
-    font-weight: 850;
-
-    letter-spacing: .7px;
-    text-align: center;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(10,3,6,.94),
-            rgba(10,3,6,.76)
-        );
-
-    border-bottom: 1px solid rgba(255,255,255,.055);
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-
-    text-shadow:
-        0 0 20px rgba(255,255,255,.12);
-}
-
-
-/* =========================================================
-   CHANNEL GRID
-========================================================= */
-
-#ch-grid {
-    width: 100%;
-    max-width: 1450px;
-
-    margin: 0 auto;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fill,
-            minmax(170px, 1fr)
-        );
-
-    gap: 17px;
-
-    padding-bottom: 30px;
-}
-
-
-/* =========================================================
-   CHANNEL CARD
-========================================================= */
-
-.ch-card {
-    position: relative;
-
-    min-height: 158px;
-
-    padding: 20px 15px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    gap: 12px;
-
-    text-align: center;
-    text-decoration: none;
-
-    cursor: pointer;
-
-    isolation: isolate;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.065),
-            rgba(255,255,255,.018)
-        );
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius);
-
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.28),
-        inset 0 1px 0 rgba(255,255,255,.035);
-
-    overflow: hidden;
-
-    transform: translateZ(0);
-
-    transition:
-        transform .32s cubic-bezier(.22,.61,.36,1),
-        border-color .32s ease,
-        background .32s ease,
-        box-shadow .32s ease;
-}
-
-
-/* TOP RED LIGHT */
-
-.ch-card::after {
-    content: "";
-
-    position: absolute;
-
-    top: -70px;
-    left: 50%;
-
-    width: 150px;
-    height: 120px;
-
-    transform: translateX(-50%);
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,23,68,.20),
-            transparent 70%
-        );
-
-    opacity: .25;
-
-    pointer-events: none;
-
-    transition:
-        opacity .35s ease,
-        transform .35s ease;
-}
-
-
-/* SHINE */
-
-.ch-card::before {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            110deg,
-            transparent 20%,
-            rgba(255,255,255,.09) 45%,
-            transparent 70%
-        );
-
-    transform:
-        translateX(-120%);
-
-    transition:
-        transform .65s cubic-bezier(.22,.61,.36,1);
-
-    pointer-events: none;
-}
-
-
-/* HOVER */
-
-.ch-card:hover {
-    transform:
-        translateY(-6px)
-        scale(1.012);
-
-    border-color:
-        rgba(255,23,68,.42);
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,23,68,.115),
-            rgba(255,255,255,.035)
-        );
-
-    box-shadow:
-        0 20px 45px rgba(0,0,0,.48),
-        0 0 28px rgba(255,23,68,.10),
-        inset 0 1px 0 rgba(255,255,255,.06);
-}
-
-.ch-card:hover::before {
-    transform:
-        translateX(120%);
-}
-
-.ch-card:hover::after {
-    opacity: .75;
-    transform:
-        translateX(-50%)
-        scale(1.25);
-}
-
-
-/* CLICK */
-
-.ch-card:active {
-    transform:
-        translateY(-1px)
-        scale(.975);
-
-    transition-duration: .1s;
-}
-
-
-/* KEYBOARD */
-
-.ch-card:focus-visible {
-    outline: none;
-
-    border-color: var(--red);
-
-    box-shadow:
-        0 0 0 3px rgba(255,23,68,.15),
-        0 0 30px rgba(255,23,68,.12);
-}
-
-
-/* =========================================================
-   CHANNEL LOGO
-========================================================= */
-
-.ch-card .ch-logo {
-    position: relative;
-    z-index: 2;
-
-    width: 100%;
-    max-width: 132px;
-
-    height: 66px;
-
-    object-fit: contain;
-
-    padding: 7px;
-
-    border-radius: 12px;
-
-    background:
-        rgba(255,255,255,.035);
-
-    border:
-        1px solid rgba(255,255,255,.035);
-
-    transition:
-        transform .35s cubic-bezier(.22,.61,.36,1),
-        filter .35s ease,
-        background .35s ease;
-}
-
-.ch-card:hover .ch-logo {
-    transform:
-        scale(1.06)
-        translateY(-2px);
-
-    filter:
-        drop-shadow(0 6px 14px rgba(255,23,68,.13));
-
-    background:
-        rgba(255,255,255,.055);
-}
-
-
-/* =========================================================
-   PLACEHOLDER
-========================================================= */
-
-.ch-card .ch-placeholder {
-    position: relative;
-    z-index: 2;
-
-    width: 132px;
-    height: 66px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 12px;
-
-    color: #aaa;
-
-    font-size: 13px;
-    font-weight: 750;
-
-    letter-spacing: .7px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #211117,
-            #0d0709
-        );
-
-    border:
-        1px solid rgba(255,255,255,.06);
-}
-
-
-/* =========================================================
-   CHANNEL NAME
-========================================================= */
-
-.ch-card .ch-name {
-    position: relative;
-    z-index: 2;
-
-    width: 100%;
-    max-width: 100%;
-
-    color: #f8eff1;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    line-height: 1.35;
-
-    letter-spacing: .15px;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-
-    transition:
-        color .25s ease;
-}
-
-.ch-card:hover .ch-name {
-    color: #fff;
-}
-
-
-/* =========================================================
-   BADGE
-========================================================= */
-
-.ch-card .ch-badge {
-    position: relative;
-    z-index: 2;
-
-    padding: 5px 10px;
-
-    color: #bdb2b6;
-
-    font-size: 9px;
-    font-weight: 700;
-
-    letter-spacing: .65px;
-
-    text-transform: uppercase;
-
-    background:
-        rgba(255,255,255,.045);
-
-    border:
-        1px solid rgba(255,255,255,.065);
-
-    border-radius: 999px;
-
-    transition:
-        color .25s ease,
-        border-color .25s ease,
-        background .25s ease;
-}
-
-.ch-card:hover .ch-badge {
-    color: #ffb8c4;
-
-    border-color:
-        rgba(255,23,68,.22);
-
-    background:
-        rgba(255,23,68,.08);
-}
-
-
-/* =========================================================
-   PLAYER
-========================================================= */
-
-#pc {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    background: #000;
-
-    touch-action: manipulation;
-}
-
-video {
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    background: #000;
-
-    will-change: transform;
-}
-
-video.mode-fill {
-    object-fit: fill;
-}
-
-video.mode-cover {
-    object-fit: cover;
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-#status {
-    position: fixed;
-
-    top: max(14px, env(safe-area-inset-top));
-    right: max(14px, env(safe-area-inset-right));
-
-    z-index: 9997;
-
-    max-width: min(300px, calc(100vw - 28px));
-
-    padding: 8px 15px;
-
-    color: #fff;
-
-    font-size: 11px;
-    font-weight: 650;
-
-    letter-spacing: .25px;
-
-    text-align: right;
-
-    background:
-        rgba(15,6,9,.88);
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    border-radius: 999px;
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.35),
-        0 0 18px rgba(255,23,68,.05);
-
-    pointer-events: none;
-
-    opacity: 0;
-
-    transform:
-        translateY(-7px);
-
-    transition:
-        opacity .28s ease,
-        transform .28s ease;
-
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-}
-
-#status.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-#status.ok {
-    color: #ff8093;
-}
-
-#status.warn {
-    color: #ffad78;
-}
-
-#status.err {
-    color: #ff6b6b;
-}
-
-
-/* =========================================================
-   CUSTOM PLAYER BUTTONS
-========================================================= */
-
-.sp-btn {
-    height: 100%;
-    min-width: 38px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 5px;
-
-    padding: 0 9px !important;
-
-    color: #fff !important;
-
-    background: transparent !important;
-    border: none !important;
-
-    cursor: pointer !important;
-
-    opacity: .82;
-
-    transition:
-        opacity .18s ease,
-        transform .18s ease,
-        color .18s ease;
-}
-
-.sp-btn:hover {
-    opacity: 1;
-}
-
-.sp-btn:active {
-    transform: scale(.88);
-}
-
-.sp-btn:focus-visible {
-    outline: 2px solid var(--red);
-    outline-offset: 2px;
-    border-radius: 6px;
-}
-
-.sp-btn svg {
-    width: 18px;
-    height: 18px;
-
-    display: block;
-
-    pointer-events: none;
-
-    flex-shrink: 0;
-}
-
-.sp-btn.active {
-    opacity: 1;
-    color: var(--red) !important;
-}
-
-.fit-ratio {
-    font-size: 10px;
-    font-weight: 750;
-
-    line-height: 1;
-
-    letter-spacing: .2px;
-
-    white-space: nowrap;
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   SHAKA PLAYER
-========================================================= */
-
-.shaka-video-container {
-    background: #000 !important;
-}
-
-.shaka-controls-container button {
-    color: #fff !important;
-}
-
-.shaka-controls-container .shaka-play-button,
-.shaka-controls-container .shaka-mute-button,
-.shaka-controls-container .shaka-volume-bar,
-.shaka-controls-container .shaka-fullscreen-button,
-.shaka-controls-container .shaka-overflow-menu-button {
-    color: var(--red) !important;
-}
-
-.shaka-controls-container
-.shaka-seek-bar
-.shaka-seek-bar-played {
-    background: var(--red) !important;
-}
-
-.shaka-controls-container
-.shaka-seek-bar
-.shaka-seek-bar-buffered {
-    background: #641522 !important;
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-#channel-list::-webkit-scrollbar {
-    width: 6px;
-}
-
-#channel-list::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-#channel-list::-webkit-scrollbar-thumb {
-    background:
-        linear-gradient(
-            #3b171f,
-            #651525
-        );
-
-    border-radius: 20px;
-}
-
-#channel-list::-webkit-scrollbar-thumb:hover {
-    background: var(--red);
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (min-width: 601px) and (max-width: 1100px) {
-
-    #channel-list {
-        padding-left: 22px;
-        padding-right: 22px;
-    }
-
-    #ch-grid {
-        grid-template-columns:
-            repeat(
-                auto-fill,
-                minmax(190px, 1fr)
-            );
-
-        gap: 15px;
-    }
-
-    .ch-card {
-        min-height: 150px;
-    }
-}
-
-
-/* =========================================================
-   DESKTOP
-========================================================= */
-
-@media (min-width: 1101px) {
-
-    #channel-list {
-        padding-left: 30px;
-        padding-right: 30px;
-    }
-
-    #ch-grid {
-        grid-template-columns:
-            repeat(
-                auto-fill,
-                minmax(215px, 1fr)
-            );
-
-        gap: 19px;
-    }
-
-    .ch-card {
-        min-height: 165px;
-    }
-
-    .ch-card .ch-name {
-        font-size: 14px;
-    }
-}
-
-
-/* =========================================================
-   LARGE DESKTOP
-========================================================= */
-
-@media (min-width: 1500px) {
-
-    #ch-grid {
-        grid-template-columns:
-            repeat(
-                auto-fill,
-                minmax(235px, 1fr)
-            );
-
-        gap: 21px;
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    #channel-list {
-        padding:
-            max(14px, env(safe-area-inset-top))
-            10px
-            max(20px, env(safe-area-inset-bottom));
-    }
-
-    #channel-list h1 {
-        padding: 14px 10px;
-
-        margin-bottom: 16px;
-
-        font-size: 15px;
-
-        letter-spacing: .5px;
-    }
-
-    #ch-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        gap: 10px;
-
-        padding-bottom: 20px;
-    }
-
-    .ch-card {
-        min-height: 128px;
-
-        padding: 13px 8px;
-
-        gap: 9px;
-
-        border-radius: 14px;
-
-        box-shadow:
-            0 8px 22px rgba(0,0,0,.30);
-    }
-
-    .ch-card:hover {
-        transform: translateY(-3px);
-    }
-
-    .ch-card .ch-logo,
-    .ch-card .ch-placeholder {
-        width: 100%;
-        max-width: 105px;
-
-        height: 52px;
-
-        border-radius: 9px;
-    }
-
-    .ch-card .ch-name {
-        font-size: 11px;
-
-        letter-spacing: .1px;
-    }
-
-    .ch-card .ch-badge {
-        padding: 4px 8px;
-
-        font-size: 7.5px;
-
-        letter-spacing: .45px;
-    }
-
-    .sp-btn {
-        min-width: 34px;
-        padding: 0 6px !important;
-    }
-
-    .fit-ratio {
-        font-size: 9px;
-    }
-}
-
-
-/* =========================================================
-   SMALL PHONES
-========================================================= */
-
-@media (max-width: 380px) {
-
-    #channel-list {
-        padding-left: 7px;
-        padding-right: 7px;
-    }
-
-    #ch-grid {
-        gap: 8px;
-    }
-
-    .ch-card {
-        min-height: 118px;
-
-        padding:
-            11px 6px;
-    }
-
-    .ch-card .ch-logo,
-    .ch-card .ch-placeholder {
-        max-width: 92px;
-        height: 46px;
-    }
-
-    .ch-card .ch-name {
-        font-size: 10px;
-    }
-
-    .ch-card .ch-badge {
-        font-size: 7px;
-        padding: 3px 7px;
-    }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
-    }
-}
-/* =====================================================
-   WATCHING COUNTER
-   ===================================================== */
-
-#watchingBox {
-  position: fixed;
-  top: 18px;
-  left: 18px;
-
-  z-index: 9998;
-
-  display: flex;
-  align-items: center;
-  gap: 7px;
-
-  padding: 8px 13px;
-
-  background: rgba(0, 0, 0, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
-  border-radius: 20px;
-
-  color: #fff;
-
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-
-  backdrop-filter: blur(10px);
-
-  box-shadow:
-    0 5px 20px rgba(0, 0, 0, 0.35);
-}
-
-#watchingCount {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.liveDot {
-  width: 7px;
-  height: 7px;
-
-  background: #ff3030;
-
-  border-radius: 50%;
-
-  animation: livePulse 1.3s infinite;
-}
-
-@keyframes livePulse {
-
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.45;
-    transform: scale(0.75);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-}
-
-
-/* =====================================================
-   TELEGRAM POPUP
-   ===================================================== */
-
-#telegramPopup {
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 10000;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-
-  background: rgba(0, 0, 0, 0.72);
-
-  backdrop-filter: blur(6px);
-
-  opacity: 0;
-  visibility: hidden;
-
-  transition:
-    opacity 0.25s ease,
-    visibility 0.25s ease;
-}
-
-#telegramPopup.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-.telegramPopupBox {
-
-  position: relative;
-
-  width: min(380px, 100%);
-
-  padding: 30px 24px 25px;
-
-  text-align: center;
-
-  border-radius: 20px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #241010,
-      #100707
-    );
-
-  border: 1px solid rgba(255, 70, 70, 0.25);
-
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.65);
-
-  transform: translateY(15px) scale(0.96);
-
-  transition: transform 0.25s ease;
-}
-
-#telegramPopup.show .telegramPopupBox {
-  transform: translateY(0) scale(1);
-}
-
-.telegramIcon {
-
-  width: 55px;
-  height: 55px;
-
-  margin: 0 auto 14px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  background: #229ED9;
-
-  font-size: 27px;
-
-  box-shadow:
-    0 8px 25px rgba(34, 158, 217, 0.3);
-}
-
-.telegramPopupBox h3 {
-
-  margin: 0 0 8px;
-
-  color: #fff;
-
-  font-size: 21px;
-}
-
-.telegramPopupBox p {
-
-  margin: 0 auto 20px;
-
-  max-width: 300px;
-
-  color: #bdbdbd;
-
-  font-size: 13px;
-
-  line-height: 1.5;
-}
-
-#telegramJoinBtn {
-
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  min-width: 180px;
-
-  padding: 12px 20px;
-
-  border-radius: 10px;
-
-  background: #229ED9;
-
-  color: #fff;
-
-  text-decoration: none;
-
-  font-size: 13px;
-
-  font-weight: 800;
-
-  transition: transform 0.2s ease,
-              opacity 0.2s ease;
-}
-
-#telegramJoinBtn:hover {
-
-  transform: translateY(-2px);
-
-  opacity: 0.9;
-}
-
-#closeTelegramPopup {
-
-  position: absolute;
-
-  top: 10px;
-  right: 12px;
-
-  width: 32px;
-  height: 32px;
-
-  border: 0;
-
-  border-radius: 50%;
-
-  background: rgba(255,255,255,0.08);
-
-  color: #fff;
-
-  font-size: 22px;
-
-  line-height: 1;
-
-  cursor: pointer;
-}
-
-
-/* MOBILE */
-
-@media (max-width: 600px) {
-
-  #watchingBox {
-    top: 12px;
-    left: 12px;
-
-    padding: 7px 11px;
-
-    font-size: 10px;
-  }
-
-  #watchingCount {
-    font-size: 11px;
-  }
-
-  .telegramPopupBox {
-    padding: 27px 20px 22px;
-  }
-
-}
-/* =====================================================
-   LIVE WATCHING — PORTRAIT + LANDSCAPE
-   ===================================================== */
-
-#watchingBox {
-  position: fixed;
-
-  /* Always stay inside the visible viewport */
-  top: max(10px, env(safe-area-inset-top));
-  left: max(10px, env(safe-area-inset-left));
-
-  z-index: 9998;
-
-  display: flex;
-  align-items: center;
-  gap: 7px;
-
-  padding: 8px 13px;
-
-  background: rgba(0, 0, 0, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-
-  border-radius: 20px;
-
-  color: #fff;
-
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-
-  white-space: nowrap;
-
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-
-  /* Prevent accidental movement during rotation */
-  transform: none;
-}
-
-#watchingCount {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.liveDot {
-  width: 7px;
-  height: 7px;
-
-  flex: 0 0 7px;
-
-  background: #ff3030;
-
-  border-radius: 50%;
-
-  animation: livePulse 1.3s infinite;
-}
-
-@keyframes livePulse {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.45;
-    transform: scale(0.75);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-
-/* =====================================================
-   MOBILE PORTRAIT
-   ===================================================== */
-
-@media screen and (max-width: 600px) and (orientation: portrait) {
-
-  #watchingBox {
-    top: max(8px, env(safe-area-inset-top));
-    left: max(8px, env(safe-area-inset-left));
-
-    padding: 7px 10px;
-
-    font-size: 10px;
-  }
-
-  #watchingCount {
-    font-size: 11px;
-  }
-
-  .liveDot {
-    width: 6px;
-    height: 6px;
-    flex-basis: 6px;
-  }
-}
-
-
-/* =====================================================
-   MOBILE LANDSCAPE / ROTATED PHONE
-   ===================================================== */
-
-@media screen and (max-width: 900px) and (orientation: landscape) {
-
-  #watchingBox {
-    top: max(8px, env(safe-area-inset-top));
-    left: max(8px, env(safe-area-inset-left));
-
-    padding: 6px 10px;
-
-    font-size: 10px;
-
-    /* Keep it above the video */
-    z-index: 99999;
-  }
-
-  #watchingCount {
-    font-size: 11px;
-  }
-
-  .liveDot {
-    width: 6px;
-    height: 6px;
-    flex-basis: 6px;
-  }
-}
-
-
-/* =====================================================
-   VERY SMALL LANDSCAPE SCREEN
-   ===================================================== */
-
-@media screen and (max-height: 400px) and (orientation: landscape) {
-
-  #watchingBox {
-    top: 6px;
-    left: 8px;
-
-    padding: 5px 8px;
-
-    font-size: 9px;
-  }
-
-  #watchingCount {
-    font-size: 10px;
-  }
-
-  .liveDot {
-    width: 5px;
-    height: 5px;
-    flex-basis: 5px;
-  }
-}
-#pc {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-#pc #watchingBox {
-  position: absolute;
-  top: max(10px, env(safe-area-inset-top));
-  left: max(10px, env(safe-area-inset-left));
-
-  z-index: 999999;
-
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  padding: 7px 11px;
-
-  background: rgba(0,0,0,.78);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 20px;
-
-  color: #fff;
-  font: 700 11px Arial,sans-serif;
-
-  white-space: nowrap;
-
-  pointer-events: none;
-
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-#pc #watchingCount {
-  font-size: 12px;
-}
-
-#pc .liveDot {
-  width: 6px;
-  height: 6px;
-  flex: 0 0 6px;
-
-  background: #ff3030;
-  border-radius: 50%;
-
-  animation: livePulse 1.3s infinite;
-}
-
-@keyframes livePulse {
-  0%,100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: .4;
-    transform: scale(.75);
-  }
-}
-
-
-/* 📱 Mobile portrait */
-@media (max-width: 600px) {
-
-  #pc #watchingBox {
-    top: max(8px, env(safe-area-inset-top));
-    left: max(8px, env(safe-area-inset-left));
-
-    padding: 6px 9px;
-    font-size: 10px;
-  }
-
-  #pc #watchingCount {
-    font-size: 11px;
-  }
-}
-
-
-/* 📱 Mobile landscape / rotated */
-@media (max-height: 500px) and (orientation: landscape) {
-
-  #pc #watchingBox {
-    top: 7px;
-    left: 8px;
-
-    padding: 5px 8px;
-
-    font-size: 9px;
-
-    z-index: 999999;
-  }
-
-  #pc #watchingCount {
-    font-size: 10px;
-  }
-
-  #pc .liveDot {
-    width: 5px;
-    height: 5px;
-    flex-basis: 5px;
-  }
-}
-/* WATCHING COUNTER */
-
-#watchingBox {
-  position: absolute !important;
-
-  top: 12px !important;
-  left: 12px !important;
-
-  z-index: 2147483647 !important;
-
-  display: flex;
-
-  align-items: center;
-  gap: 6px;
-
-  padding: 7px 11px;
-
-  background: rgba(0,0,0,.82);
-
-  border: 1px solid rgba(255,255,255,.15);
-
-  border-radius: 20px;
-
-  color: #fff;
-
-  font-family: Arial,sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-
-  white-space: nowrap;
-
-  pointer-events: none;
-
-  box-sizing: border-box;
-
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-#watchingCount {
-  font-size: 12px;
-}
-
-.liveDot {
-  width: 6px;
-  height: 6px;
-
-  flex: 0 0 6px;
-
-  background: #ff3030;
-
-  border-radius: 50%;
-
-  animation: livePulse 1.3s infinite;
-}
-
-@keyframes livePulse {
-
-  0%,100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: .4;
-    transform: scale(.75);
-  }
-
-}
-
-
-/* MOBILE */
-
-@media (max-width: 600px) {
-
-  #watchingBox {
-
-    top: 8px !important;
-    left: 8px !important;
-
-    padding: 6px 9px;
-
-    font-size: 10px;
-
-  }
-
-  #watchingCount {
-    font-size: 11px;
-  }
-
-}
-
-
-/* MOBILE LANDSCAPE */
-
-@media (orientation: landscape) and (max-height: 600px) {
-
-  #watchingBox {
-
-    top: 7px !important;
-    left: 8px !important;
-
-    padding: 5px 8px;
-
-    font-size: 9px;
-
-  }
-
-  #watchingCount {
-    font-size: 10px;
-  }
-
-}
-
-
-/* =========================================================
-   SONY CHANNEL SUMMARY
-========================================================= */
-.cx-channel-summary{
-    width:100%;
-    max-width:1000px;
-    margin:12px auto 0;
-    padding:0 2px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    color:#8f8f8f;
-    font-size:9px;
-    font-weight:800;
-    letter-spacing:1px;
-    text-transform:uppercase;
-}
-#channelSource{
-    color:#ff526b;
-    border:1px solid rgba(255,48,79,.22);
-    background:rgba(255,48,79,.06);
-    padding:5px 9px;
-    border-radius:999px;
-}
-
-/* =========================================================
-   IMPROVED SONY CARDS
-========================================================= */
-.ch-card{
-    overflow:hidden;
-    isolation:isolate;
-}
-.ch-card::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    z-index:-1;
-    background:radial-gradient(circle at 50% 0%,rgba(255,48,79,.14),transparent 55%);
-    opacity:.55;
-    transition:opacity .25s ease;
-}
-.ch-card:hover::before{opacity:1;}
-.ch-card .ch-logo,
-.ch-card .ch-placeholder{
-    box-shadow:0 8px 22px rgba(0,0,0,.25);
-}
-.ch-card .ch-name{
-    min-height:31px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-.ch-card .ch-badge{
-    color:#ff7184;
-    border-color:rgba(255,48,79,.2);
-    background:rgba(255,48,79,.07);
-}
-
-/* =========================================================
-   EMPTY STATE
-========================================================= */
-.cx-empty{
-    grid-column:1/-1;
-    min-height:220px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    border:1px dashed rgba(255,255,255,.12);
-    border-radius:16px;
-    background:rgba(255,255,255,.025);
-    color:#aaa;
-    text-align:center;
-}
-.cx-empty-icon{
-    width:52px;
-    height:52px;
-    display:grid;
-    place-items:center;
-    border-radius:50%;
-    background:rgba(255,48,79,.08);
-    font-size:24px;
-}
-.cx-empty strong{color:#fff;font-size:14px;}
-.cx-empty span{font-size:10px;color:#777;}
-
-/* =========================================================
-   MOBILE POLISH
-========================================================= */
-@media (max-width:700px){
-    .cx-header,.cx-hero,#ch-grid,.cx-channel-summary{
-        width:calc(100% - 24px);
-    }
-    .cx-header{height:66px;}
-    .cx-header-right{gap:6px;}
-    .cx-counter-label{display:none;}
-    .cx-join{padding:8px 13px;}
-    .cx-hero{padding-top:48px;}
-    .cx-hero h1{font-size:clamp(42px,15vw,64px);letter-spacing:-2px;}
-    .cx-search{width:100%;max-width:340px;}
-    #ch-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
-        gap:9px;
-    }
-    .ch-card{min-height:132px;padding:14px 9px;}
-    .ch-card .ch-logo,.ch-card .ch-placeholder{width:88px;height:50px;}
-}
-
-
-/* =========================================================
-   CRICZONE TV ENGINE STATUS
-========================================================= */
-.cx-api-panel{
+:root{
+  --bg:#050507;
+  --panel:#0d0d11;
+  --panel2:#121217;
+  --line:rgba(255,255,255,.09);
+  --muted:#85858e;
+  --text:#f8f8fa;
+  --red:#ff174f;
+  --red2:#ff3d68;
+  --green:#42e58a;
+  --shadow:0 24px 70px rgba(0,0,0,.48);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
   width:100%;
-  max-width:1000px;
-  margin:10px auto 0;
-  padding:11px 13px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:14px;
-  background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,48,79,.035));
-  box-shadow:0 10px 28px rgba(0,0,0,.18);
-  backdrop-filter:blur(12px);
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;
+  -webkit-tap-highlight-color:transparent;
 }
-.cx-api-panel > div:first-child{
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-}
-.cx-api-panel b{
-  color:#fff;
-  font-size:10px;
-  letter-spacing:1.3px;
-}
-.cx-api-panel span{
-  color:#777;
-  font-size:9px;
-  letter-spacing:.5px;
-}
-.cx-api-live{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:6px 9px;
-  border-radius:999px;
-  color:#ff7184;
-  background:rgba(255,48,79,.07);
-  border:1px solid rgba(255,48,79,.18);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:1px;
-}
-.cx-api-live i{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:#ff304f;
-  box-shadow:0 0 10px rgba(255,48,79,.75);
-  animation:cxApiPulse 1.4s infinite;
-}
-@keyframes cxApiPulse{
-  50%{opacity:.35;transform:scale(.75)}
-}
-@media(max-width:700px){
-  .cx-api-panel{width:calc(100% - 24px);padding:10px 11px}
-  .cx-api-panel b{font-size:9px}
-  .cx-api-panel span{font-size:8px}
-}
+body{overflow-x:hidden}
+button,input{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
 
+/* ---------- hidden legacy home ---------- */
+#channel-list{display:none!important}
+#ch-grid{display:none!important}
+
+/* ---------- loading ---------- */
+#overlay{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:14px;
+  background:
+    radial-gradient(circle at 50% 40%,rgba(255,23,79,.13),transparent 28%),
+    #050507;
+  transition:opacity .25s ease;
+}
+#overlay svg{animation:spin 1s linear infinite}
+#overlay p{font-size:12px;color:#8e8e97;letter-spacing:1.5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- toast ---------- */
+#status{
+  position:fixed;top:16px;right:16px;z-index:10020;
+  max-width:min(340px,calc(100vw - 32px));
+  padding:10px 15px;border:1px solid var(--line);
+  border-radius:999px;background:rgba(13,13,17,.9);
+  color:#fff;font-size:11px;font-weight:700;
+  opacity:0;transform:translateY(-8px);pointer-events:none;
+  backdrop-filter:blur(18px);
+  transition:.25s ease;
+}
+#status.show{opacity:1;transform:none}
+#status.ok{color:#8ff2b8}
+#status.warn{color:#ffc07a}
+#status.err{color:#ff7c91}
 
 /* =========================================================
-   SCREENSHOT-STYLE SONY PLAYER PAGE
+   MAIN PLAYER — THIS IS THE NEW HOMEPAGE
 ========================================================= */
 #pc{
-  position:fixed;
-  inset:0;
-  z-index:100;
+  position:fixed;inset:0;z-index:100;
   display:none;
   overflow-y:auto;
   overflow-x:hidden;
+  align-items:flex-start;
+  justify-content:center;
   background:
-    radial-gradient(circle at 50% 12%,rgba(255,25,70,.13),transparent 28%),
-    linear-gradient(160deg,#080207 0%,#15050b 48%,#050205 100%);
+    radial-gradient(circle at 50% -10%,rgba(255,23,79,.16),transparent 34%),
+    radial-gradient(circle at 0 55%,rgba(117,18,52,.10),transparent 30%),
+    linear-gradient(145deg,#050507 0%,#09090d 48%,#050507 100%);
 }
+#pc::before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;opacity:.22;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
 .cx-player-page{
-  width:min(100%,760px);
-  min-height:100%;
-  margin:0 auto;
-  padding:18px 18px 38px;
+  position:relative;z-index:1;
+  width:min(100%,980px);
+  min-height:100vh;
+  margin:auto;
+  padding:28px 28px 55px;
 }
+
+/* top bar */
 .cx-player-top{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  height:38px;
-  margin-bottom:28px;
+  height:48px;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:72px;
 }
 .cx-back-btn{
-  width:34px;height:34px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.1);
-  background:rgba(255,255,255,.035);
-  color:#fff;font-size:18px;cursor:pointer;
+  width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);border-radius:13px;
+  background:rgba(255,255,255,.035);color:#fff;
+  font-size:20px;transition:.2s ease;
 }
+.cx-back-btn:hover{border-color:rgba(255,23,79,.55);background:rgba(255,23,79,.08)}
 .cx-mini-brand{
-  font-size:13px;font-weight:950;letter-spacing:2px;
+  font-size:15px;font-weight:950;letter-spacing:2.5px;
 }
 .cx-mini-live{
   margin-left:auto;
-  padding:7px 10px;border-radius:999px;
-  border:1px solid rgba(255,48,79,.25);
-  color:#ff5b74;font-size:8px;font-weight:900;letter-spacing:1.2px;
+  display:flex;align-items:center;gap:7px;
+  padding:9px 13px;border:1px solid rgba(255,23,79,.28);
+  border-radius:999px;background:rgba(255,23,79,.05);
+  color:#ff7890;font-size:9px;font-weight:900;letter-spacing:1.5px;
 }
 .cx-mini-live i{
-  display:inline-block;width:5px;height:5px;border-radius:50%;
-  background:#ff304f;box-shadow:0 0 9px #ff304f;margin-right:5px;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--red);box-shadow:0 0 12px var(--red);
 }
+
+/* hero */
 .cx-player-kicker{
-  display:flex;align-items:center;gap:9px;
-  color:#ff304f;font-size:9px;font-weight:950;letter-spacing:2.5px;
+  display:flex;align-items:center;gap:11px;
+  color:var(--red);font-size:11px;font-weight:950;
+  letter-spacing:3px;text-transform:uppercase;
 }
 .cx-player-kicker span{
-  width:29px;height:2px;background:#ff304f;box-shadow:0 0 9px rgba(255,48,79,.5);
+  width:34px;height:2px;background:var(--red);
+  box-shadow:0 0 14px rgba(255,23,79,.7);
 }
 .cx-player-title{
-  margin:14px 0 25px;
-  font-size:clamp(39px,9vw,70px);
-  line-height:.86;letter-spacing:-2.8px;
-  font-weight:950;color:#fff;
+  margin:16px 0 34px;
+  max-width:720px;
+  font-size:clamp(52px,8.5vw,92px);
+  line-height:.84;
+  letter-spacing:-5px;
+  font-weight:950;
+  text-transform:uppercase;
 }
-.cx-player-title strong{display:block;color:#ff3b68;}
+.cx-player-title strong{display:block;color:var(--red2)}
+
+/* category tabs */
 .cx-player-tabs{
-  display:flex;gap:9px;overflow-x:auto;scrollbar-width:none;margin-bottom:18px;
+  display:flex;gap:10px;overflow-x:auto;
+  padding-bottom:5px;margin-bottom:22px;
+  scrollbar-width:none;
 }
 .cx-player-tabs::-webkit-scrollbar{display:none}
 .cx-player-tab{
-  flex:0 0 auto;padding:10px 17px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.09);
-  background:rgba(255,255,255,.025);color:#9d969a;
-  font-size:9px;font-weight:900;letter-spacing:.3px;cursor:pointer;
+  flex:0 0 auto;
+  min-height:38px;padding:0 18px;
+  border:1px solid var(--line);border-radius:999px;
+  background:rgba(255,255,255,.035);color:#aaaab3;
+  font-size:9px;font-weight:900;letter-spacing:1px;
+  transition:.2s ease;
 }
+.cx-player-tab:hover{border-color:rgba(255,23,79,.45);color:#fff}
 .cx-player-tab.active{
-  background:#ff304f;color:#fff;border-color:#ff304f;
-  box-shadow:0 7px 22px rgba(255,48,79,.2);
+  color:#fff;background:var(--red);border-color:var(--red);
+  box-shadow:0 8px 28px rgba(255,23,79,.25);
 }
+
+/* channel selector */
 .cx-player-chips{
-  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;
+  display:flex;gap:9px;flex-wrap:wrap;
+  max-height:118px;overflow:auto;
+  padding:2px 2px 12px;
+  scrollbar-width:thin;
+  scrollbar-color:#4d1724 transparent;
 }
 .cx-player-chip{
-  border:1px solid rgba(255,255,255,.1);
-  background:rgba(255,255,255,.035);color:#a9a3a6;
-  border-radius:999px;padding:8px 12px;
-  font-size:8px;font-weight:800;cursor:pointer;
+  flex:0 0 auto;
+  padding:9px 13px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:999px;
+  background:rgba(255,255,255,.035);
+  color:#aaaab2;font-size:9px;font-weight:800;
+  transition:.2s ease;
 }
+.cx-player-chip:hover{color:#fff;border-color:rgba(255,23,79,.45)}
 .cx-player-chip.active{
-  border-color:rgba(255,48,79,.55);color:#fff;
-  background:rgba(255,48,79,.11);
+  color:#fff;border-color:rgba(255,23,79,.8);
+  background:rgba(255,23,79,.14);
+  box-shadow:inset 0 0 0 1px rgba(255,23,79,.12);
 }
+
+/* metadata */
 .cx-player-meta{
-  display:flex;align-items:center;gap:9px;
-  margin-bottom:12px;color:#70686c;font-size:8px;font-weight:900;letter-spacing:1.4px;
+  display:flex;align-items:center;gap:10px;
+  margin:18px 0 13px;
+  color:#6f7079;font-size:8px;font-weight:950;
+  letter-spacing:1.8px;
 }
-.cx-player-meta span:first-child{color:#fff}
-.cx-player-meta i{width:5px;height:5px;border-radius:50%;background:#ff304f;box-shadow:0 0 8px rgba(255,48,79,.7)}
+.cx-player-meta span:first-child{color:#f2f2f4}
+.cx-player-meta i{
+  width:4px;height:4px;border-radius:50%;
+  background:var(--red);box-shadow:0 0 9px var(--red);
+}
 .cx-player-line{
-  height:2px;background:rgba(255,48,79,.08);margin-bottom:18px;position:relative;
+  position:relative;height:1px;margin-bottom:20px;
+  background:rgba(255,255,255,.07);
 }
 .cx-player-line span{
-  position:absolute;right:0;top:-1px;width:100px;height:3px;
-  background:#ff304f;box-shadow:0 0 12px rgba(255,48,79,.75);
+  position:absolute;right:0;top:-1px;
+  width:150px;height:3px;border-radius:3px;
+  background:var(--red);
+  box-shadow:0 0 15px rgba(255,23,79,.65);
 }
+
+/* video */
 .cx-video-shell{
-  position:relative;width:100%;aspect-ratio:16/9;
-  border-radius:15px;overflow:hidden;
-  border:1px solid rgba(255,48,79,.42);
-  background:#000;box-shadow:0 18px 45px rgba(0,0,0,.55),0 0 30px rgba(255,48,79,.06);
+  position:relative;
+  width:100%;aspect-ratio:16/9;
+  overflow:hidden;border:1px solid rgba(255,23,79,.38);
+  border-radius:20px;background:#000;
+  box-shadow:var(--shadow),0 0 55px rgba(255,23,79,.07);
 }
-.cx-video-shell video{width:100%;height:100%;object-fit:contain;background:#000}
-.cx-video-shell .shaka-video-container{width:100%!important;height:100%!important}
-.cx-player-info{padding:17px 3px 10px}
-.cx-player-info h3{margin:0 0 6px;color:#eee;font-size:15px;font-weight:900}
-.cx-player-info span{color:#716a6e;font-size:8px;letter-spacing:1.5px;font-weight:800}
+.cx-video-shell video{
+  display:block;width:100%;height:100%;
+  object-fit:contain;background:#000;
+}
+.cx-video-shell .shaka-video-container{width:100%!important;height:100%!important;background:#000!important}
+
+/* watching badge */
+#watchingBox{
+  position:absolute;top:14px;left:14px;z-index:20;
+  display:flex;align-items:center;gap:7px;
+  padding:8px 11px;border:1px solid rgba(255,255,255,.13);
+  border-radius:999px;background:rgba(5,5,7,.78);
+  color:#fff;font-size:10px;font-weight:800;
+  backdrop-filter:blur(12px);
+}
+#watchingCount{font-size:11px;font-weight:900}
+.liveDot{
+  width:6px;height:6px;flex:0 0 6px;border-radius:50%;
+  background:#ff314f;box-shadow:0 0 10px #ff314f;
+  animation:livePulse 1.3s infinite;
+}
+@keyframes livePulse{50%{opacity:.45;transform:scale(.75)}}
+
+/* player info */
+.cx-player-info{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:15px;padding:18px 3px 8px;
+}
+.cx-player-info h3{
+  color:#f3f3f5;font-size:16px;font-weight:900;
+}
+.cx-player-info span{
+  color:#6f7079;font-size:8px;font-weight:900;
+  letter-spacing:1.6px;white-space:nowrap;
+}
 .cx-share-btn{
-  width:100%;height:48px;margin-top:7px;border-radius:999px;
-  border:1px solid rgba(255,48,79,.6);background:rgba(255,48,79,.025);
-  color:#fff;font-size:9px;font-weight:950;letter-spacing:1.2px;cursor:pointer;
+  width:100%;height:48px;margin-top:12px;
+  border:1px solid rgba(255,23,79,.45);border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,23,79,.10),rgba(255,23,79,.035));
+  color:#fff;font-size:9px;font-weight:950;letter-spacing:1.8px;
+  transition:.2s ease;
 }
-.cx-share-btn span{color:#ff304f;margin-right:7px;font-size:15px}
-.cx-share-btn:hover{background:rgba(255,48,79,.09);box-shadow:0 10px 25px rgba(255,48,79,.1)}
+.cx-share-btn:hover{background:rgba(255,23,79,.16);border-color:var(--red)}
+.cx-share-btn span{color:var(--red);font-size:17px;margin-right:6px}
+
+/* theme */
 .cx-theme-toggle{
-  display:flex;justify-content:flex-end;gap:0;margin-top:22px;
-  padding:4px;border:1px solid rgba(255,255,255,.09);
-  background:rgba(255,255,255,.025);border-radius:999px;width:max-content;margin-left:auto;
+  display:flex;gap:3px;margin:17px 0 0 auto;
+  width:max-content;padding:4px;
+  border:1px solid var(--line);border-radius:999px;
+  background:rgba(255,255,255,.035);
 }
 .cx-theme-toggle button{
-  border:0;background:transparent;color:#777;padding:8px 13px;border-radius:999px;
-  font-size:8px;font-weight:900;cursor:pointer;
+  border:0;border-radius:999px;padding:8px 13px;
+  background:transparent;color:#777983;
+  font-size:8px;font-weight:900;letter-spacing:.7px;
 }
-.cx-theme-toggle button.active{background:#ff304f;color:#fff;box-shadow:0 5px 16px rgba(255,48,79,.2)}
-.cx-player-page.light{background:linear-gradient(160deg,#fff 0%,#fff5f7 50%,#f6f6f6 100%);color:#111}
-.cx-player-page.light .cx-player-title,.cx-player-page.light .cx-player-info h3,.cx-player-page.light .cx-mini-brand{color:#111}
-.cx-player-page.light .cx-player-tab,.cx-player-page.light .cx-player-chip{color:#555;background:rgba(0,0,0,.025);border-color:rgba(0,0,0,.1)}
-.cx-player-page.light .cx-player-info span,.cx-player-page.light .cx-player-meta{color:#777}
-.cx-player-page.light .cx-back-btn{color:#111;border-color:rgba(0,0,0,.1);background:rgba(0,0,0,.03)}
-@media(max-width:600px){
-  .cx-player-page{padding:12px 10px 28px}
-  .cx-player-top{margin-bottom:25px}
-  .cx-player-title{margin-bottom:22px}
-  .cx-player-tabs{gap:7px}
-  .cx-player-tab{padding:9px 14px}
-  .cx-player-chip{padding:7px 10px}
-  .cx-video-shell{border-radius:13px}
+.cx-theme-toggle button.active{
+  background:var(--red);color:#fff;
+  box-shadow:0 5px 18px rgba(255,23,79,.22);
 }
 
+/* light mode */
+.cx-player-page.light{color:#111;background:linear-gradient(145deg,#fff,#fff5f7)}
+.cx-player-page.light .cx-player-title,
+.cx-player-page.light .cx-player-info h3,
+.cx-player-page.light .cx-mini-brand{color:#111}
+.cx-player-page.light .cx-player-tab,
+.cx-player-page.light .cx-player-chip{
+  color:#555;background:rgba(0,0,0,.025);border-color:rgba(0,0,0,.1)
+}
+.cx-player-page.light .cx-player-info span,
+.cx-player-page.light .cx-player-meta{color:#777}
 
-/* Homepage reference layout */
-.cx-hero h1{
-  font-size:clamp(46px,9vw,78px);
-  letter-spacing:-3.5px;
-  text-transform:uppercase;
+/* ---------- shaka controls ---------- */
+.sp-btn{
+  height:100%;min-width:38px;
+  display:flex;align-items:center;justify-content:center;
+  gap:5px;padding:0 9px!important;
+  color:#fff!important;background:transparent!important;
+  border:0!important;opacity:.82;
 }
-.cx-hero h1 strong{
-  color:#ff3b68;
+.sp-btn:hover{opacity:1}
+.sp-btn:active{transform:scale(.88)}
+.sp-btn svg{width:18px;height:18px;display:block}
+.sp-btn.active{color:var(--red)!important;opacity:1}
+.fit-ratio{font-size:10px;font-weight:750}
+.shaka-video-container{background:#000!important}
+.shaka-controls-container button{color:#fff!important}
+.shaka-controls-container .shaka-play-button,
+.shaka-controls-container .shaka-mute-button,
+.shaka-controls-container .shaka-fullscreen-button,
+.shaka-controls-container .shaka-overflow-menu-button{color:var(--red)!important}
+.shaka-controls-container .shaka-seek-bar-played{background:var(--red)!important}
+.shaka-controls-container .shaka-seek-bar-buffered{background:#641522!important}
+
+/* ---------- telegram popup ---------- */
+#telegramPopup{
+  position:fixed;inset:0;z-index:10000;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(12px);
+  opacity:0;visibility:hidden;transition:.25s ease;
 }
-#homeSonyChips{
-  margin-top:15px;
-  margin-bottom:5px;
+#telegramPopup.show{opacity:1;visibility:visible}
+.telegramPopupBox{
+  position:relative;width:min(390px,100%);padding:30px 24px 25px;
+  text-align:center;border:1px solid rgba(255,23,79,.25);
+  border-radius:22px;background:linear-gradient(145deg,#171017,#09090d);
+  box-shadow:0 25px 80px rgba(0,0,0,.65);
+  transform:translateY(15px) scale(.96);transition:.25s ease;
 }
-@media(max-width:600px){
-  .cx-hero{padding:48px 10px 16px}
-  .cx-hero h1{font-size:50px;line-height:.88}
-  .cx-header{padding:0 10px}
-  .cx-header-right .cx-counter,
-  .cx-header-right .cx-counter-label{display:none}
+#telegramPopup.show .telegramPopupBox{transform:none}
+.telegramIcon{
+  width:55px;height:55px;margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:#229ed9;font-size:27px;
+}
+.telegramPopupBox h3{margin-bottom:8px;font-size:21px}
+.telegramPopupBox p{max-width:300px;margin:0 auto 20px;color:#aaa;font-size:13px;line-height:1.5}
+#telegramJoinBtn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:180px;padding:12px 20px;border-radius:11px;
+  background:#229ed9;color:#fff;font-size:13px;font-weight:800;
+}
+#closeTelegramPopup{
+  position:absolute;top:10px;right:12px;width:32px;height:32px;
+  border:0;border-radius:50%;background:rgba(255,255,255,.08);
+  color:#fff;font-size:22px;
+}
+
+/* ---------- responsive ---------- */
+@media(max-width:700px){
+  #pc{background:
+    radial-gradient(circle at 50% -5%,rgba(255,23,79,.18),transparent 38%),
+    linear-gradient(155deg,#050507,#0a080c 55%,#050507)}
+  .cx-player-page{padding:18px 13px 34px}
+  .cx-player-top{margin-bottom:55px}
+  .cx-back-btn{width:36px;height:36px}
+  .cx-mini-brand{font-size:13px}
+  .cx-mini-live{padding:8px 10px;font-size:8px}
+  .cx-player-kicker{font-size:9px;letter-spacing:2.2px}
+  .cx-player-title{
+    margin:14px 0 27px;
+    font-size:clamp(45px,13vw,68px);
+    letter-spacing:-3.5px;
+  }
+  .cx-player-tab{padding:0 14px;min-height:36px}
+  .cx-player-chips{max-height:135px}
+  .cx-player-chip{padding:8px 10px;font-size:8px}
+  .cx-video-shell{border-radius:15px}
+  .cx-player-info{display:block}
+  .cx-player-info h3{font-size:14px;margin-bottom:7px}
+  .cx-player-info span{font-size:7px}
+  .cx-theme-toggle{margin-top:14px}
+}
+@media(max-width:390px){
+  .cx-player-page{padding-left:10px;padding-right:10px}
+  .cx-player-top{margin-bottom:42px}
+  .cx-player-title{font-size:44px}
+  .cx-player-chip{padding:7px 9px}
+}
+
+/* accessibility / reduced motion */
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
