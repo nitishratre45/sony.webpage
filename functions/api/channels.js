@@ -46,8 +46,10 @@ export async function onRequest(context) {
   };
 
   try {
-    // CricZoneTV combined channel API: primary -> fallback.
-    const upstreamUrl = "https://criczonelive.vercel.app/api/jtv";
+    // API is supplied by Cloudflare Pages environment variable.
+    // Put the same CricZoneTV API URL here via UPSTREAM_API.
+    const upstreamUrl = context.env.UPSTREAM_API;
+    if (!upstreamUrl) return json({ error: "UPSTREAM_API_MISSING" }, 500);
 
     let url;
     try {
@@ -113,7 +115,7 @@ export async function onRequest(context) {
     return json({
       channels: unique,
       count: unique.length,
-      source: "criczonetv-jtv-filtered",
+      source: "configured-upstream-filtered",
       filter: "sony"
     });
   } catch (error) {
