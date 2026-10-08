@@ -191,12 +191,12 @@
     </div>
 
     <div class="cx-player-kicker"><span></span> LIVE BROADCAST</div>
-    <h2 class="cx-player-title">SONY SPORTS <strong>LIVE.</strong></h2>
+    <h2 class="cx-player-title">SPORTS TV <strong>BY CRICZONE.</strong></h2>
 
     <div class="cx-player-tabs">
+      <button class="cx-player-tab" type="button">STAR SPORTS</button>
       <button class="cx-player-tab active" type="button">SONY SPORTS</button>
-      <button class="cx-player-tab" type="button">SONY ENTERTAINMENT</button>
-      <button class="cx-player-tab" type="button">SONY MOVIES</button>
+      <button class="cx-player-tab" type="button">MOVIES</button>
     </div>
 
     <div class="cx-player-chips" id="playerChannelChips"></div>
@@ -660,7 +660,7 @@ async function startPlayer(ch){
   var chips=document.getElementById("playerChannelChips");
   if(chips){
     chips.innerHTML="";
-    allChannels.slice(0,12).forEach(function(item){
+    allChannels.forEach(function(item){
       var btn=document.createElement("button");
       btn.type="button";
       btn.className="cx-player-chip"+(item.id===ch.id?" active":"");
@@ -916,7 +916,7 @@ async function main(){
   // If no channel is selected, automatically use the first Sony channel.
   var ch;
   if(!id){
-    renderList(data);
+    // Homepage is the reference player UI itself; auto-open the first Sony channel.
     ch=channels[0];
   }else{
     ch=channels.find(function(c){ return c.id===id; });
