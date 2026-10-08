@@ -2773,3 +2773,67 @@ video.mode-cover {
     .ch-card{min-height:132px;padding:14px 9px;}
     .ch-card .ch-logo,.ch-card .ch-placeholder{width:88px;height:50px;}
 }
+
+
+/* =========================================================
+   CRICZONE TV ENGINE STATUS
+========================================================= */
+.cx-api-panel{
+  width:100%;
+  max-width:1000px;
+  margin:10px auto 0;
+  padding:11px 13px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,48,79,.035));
+  box-shadow:0 10px 28px rgba(0,0,0,.18);
+  backdrop-filter:blur(12px);
+}
+.cx-api-panel > div:first-child{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+.cx-api-panel b{
+  color:#fff;
+  font-size:10px;
+  letter-spacing:1.3px;
+}
+.cx-api-panel span{
+  color:#777;
+  font-size:9px;
+  letter-spacing:.5px;
+}
+.cx-api-live{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:6px 9px;
+  border-radius:999px;
+  color:#ff7184;
+  background:rgba(255,48,79,.07);
+  border:1px solid rgba(255,48,79,.18);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+.cx-api-live i{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#ff304f;
+  box-shadow:0 0 10px rgba(255,48,79,.75);
+  animation:cxApiPulse 1.4s infinite;
+}
+@keyframes cxApiPulse{
+  50%{opacity:.35;transform:scale(.75)}
+}
+@media(max-width:700px){
+  .cx-api-panel{width:calc(100% - 24px);padding:10px 11px}
+  .cx-api-panel b{font-size:9px}
+  .cx-api-panel span{font-size:8px}
+}
