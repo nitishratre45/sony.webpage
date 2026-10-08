@@ -2981,3 +2981,25 @@ video.mode-cover {
   .cx-player-chip{padding:7px 10px}
   .cx-video-shell{border-radius:13px}
 }
+
+
+/* Homepage reference layout */
+.cx-hero h1{
+  font-size:clamp(46px,9vw,78px);
+  letter-spacing:-3.5px;
+  text-transform:uppercase;
+}
+.cx-hero h1 strong{
+  color:#ff3b68;
+}
+#homeSonyChips{
+  margin-top:15px;
+  margin-bottom:5px;
+}
+@media(max-width:600px){
+  .cx-hero{padding:48px 10px 16px}
+  .cx-hero h1{font-size:50px;line-height:.88}
+  .cx-header{padding:0 10px}
+  .cx-header-right .cx-counter,
+  .cx-header-right .cx-counter-label{display:none}
+}
