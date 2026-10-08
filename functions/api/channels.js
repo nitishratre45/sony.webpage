@@ -46,8 +46,8 @@ export async function onRequest(context) {
   };
 
   try {
-    const upstreamUrl = context.env.UPSTREAM_API;
-    if (!upstreamUrl) return json({ error: "UPSTREAM_API_MISSING" }, 500);
+    // CricZoneTV combined channel API: primary -> fallback.
+    const upstreamUrl = context.env.UPSTREAM_API || "https://criczonelive.vercel.app/api/jtv";
 
     let url;
     try {
@@ -113,7 +113,7 @@ export async function onRequest(context) {
     return json({
       channels: unique,
       count: unique.length,
-      source: "upstream-filtered",
+      source: "criczonetv-jtv-filtered",
       filter: "sony"
     });
   } catch (error) {
