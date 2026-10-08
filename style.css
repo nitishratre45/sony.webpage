@@ -2837,3 +2837,360 @@ video.mode-cover {
   .cx-api-panel b{font-size:9px}
   .cx-api-panel span{font-size:8px}
 }
+
+
+/* =========================================================
+   FINAL RESPONSIVE POLISH — ALL SCREEN SIZES
+   ========================================================= */
+
+:root{
+  --cx-max: 1000px;
+  --cx-gap: 14px;
+}
+
+/* Large / wide desktop */
+@media (min-width: 1400px){
+  .cx-header,
+  .cx-hero,
+  #ch-grid,
+  .cx-channel-summary,
+  .cx-api-panel{
+    max-width: var(--cx-max);
+  }
+
+  .cx-header{
+    height: 78px;
+  }
+
+  .cx-hero{
+    padding-top: 72px;
+  }
+
+  #ch-grid{
+    grid-template-columns: repeat(5,minmax(0,1fr));
+    gap: var(--cx-gap);
+  }
+
+  .ch-card{
+    min-height: 166px;
+    padding: 18px 14px;
+  }
+
+  .ch-card .ch-logo,
+  .ch-card .ch-placeholder{
+    width: 112px;
+    height: 62px;
+  }
+}
+
+/* Normal desktop */
+@media (min-width: 1001px) and (max-width: 1399px){
+  .cx-header,
+  .cx-hero,
+  #ch-grid,
+  .cx-channel-summary,
+  .cx-api-panel{
+    width: calc(100% - 48px);
+  }
+
+  #ch-grid{
+    grid-template-columns: repeat(5,minmax(0,1fr));
+    gap: 13px;
+  }
+}
+
+/* Tablet landscape / small laptops */
+@media (min-width: 701px) and (max-width: 1000px){
+  .cx-header,
+  .cx-hero,
+  #ch-grid,
+  .cx-channel-summary,
+  .cx-api-panel{
+    width: calc(100% - 36px);
+    max-width: none;
+  }
+
+  .cx-header{
+    height: 70px;
+  }
+
+  .cx-hero{
+    padding-top: 54px;
+  }
+
+  .cx-hero h1{
+    font-size: clamp(48px,7vw,68px);
+  }
+
+  .cx-search{
+    width: min(330px,100%);
+  }
+
+  #ch-grid{
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 12px;
+  }
+
+  .ch-card{
+    min-height: 150px;
+    padding: 15px 10px;
+  }
+
+  .ch-card .ch-logo,
+  .ch-card .ch-placeholder{
+    width: 96px;
+    height: 54px;
+  }
+}
+
+/* Phones */
+@media (max-width: 700px){
+  html,body{
+    width: 100%;
+    min-width: 0;
+  }
+
+  #channel-list{
+    padding: 0 0 max(24px,env(safe-area-inset-bottom));
+  }
+
+  .cx-header{
+    position: sticky;
+    top: 0;
+    width: calc(100% - 20px);
+    height: 62px;
+    margin: 0 auto;
+    padding: 0 2px;
+  }
+
+  .cx-brand{
+    font-size: 18px;
+    letter-spacing: .2px;
+  }
+
+  .cx-header-right{
+    gap: 5px;
+  }
+
+  .cx-live-pill{
+    padding: 6px 8px;
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+
+  .cx-counter{
+    min-width: 32px;
+    padding: 6px 8px;
+    font-size: 7px;
+  }
+
+  .cx-join{
+    padding: 8px 12px;
+    font-size: 8px;
+  }
+
+  .cx-hero{
+    width: calc(100% - 20px);
+    max-width: none;
+    padding: 42px 0 10px;
+  }
+
+  .cx-kicker{
+    margin-bottom: 10px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .cx-kicker span{
+    width: 16px;
+  }
+
+  .cx-hero h1{
+    max-width: 100%;
+    font-size: clamp(38px,12vw,58px);
+    line-height: .94;
+    letter-spacing: -2px;
+  }
+
+  .cx-search{
+    width: min(100%,360px);
+    margin-top: 18px;
+  }
+
+  .cx-search input{
+    height: 38px;
+    font-size: 11px;
+    padding-left: 34px;
+  }
+
+  .cx-categories{
+    gap: 7px;
+    margin-top: 12px;
+    padding-bottom: 2px;
+  }
+
+  .cx-category{
+    padding: 8px 12px;
+    font-size: 9px;
+  }
+
+  .cx-red-line{
+    height: 3px;
+    margin-top: 12px;
+  }
+
+  .cx-channel-summary{
+    width: 100%;
+    margin-top: 10px;
+    font-size: 8px;
+  }
+
+  #channelSource{
+    padding: 4px 7px;
+    font-size: 7px;
+  }
+
+  .cx-api-panel{
+    width: 100%;
+    margin-top: 9px;
+    padding: 10px 11px;
+    border-radius: 12px;
+  }
+
+  .cx-api-panel b{
+    font-size: 8px;
+  }
+
+  .cx-api-panel span{
+    font-size: 7px;
+  }
+
+  .cx-api-live{
+    padding: 5px 7px;
+    font-size: 7px;
+  }
+
+  #ch-grid{
+    width: calc(100% - 20px);
+    max-width: none;
+    margin: 14px auto 0;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 9px;
+    padding-bottom: 20px;
+  }
+
+  .ch-card{
+    min-width: 0;
+    min-height: 138px;
+    padding: 13px 7px;
+    gap: 8px;
+    border-radius: 13px;
+  }
+
+  .ch-card .ch-logo,
+  .ch-card .ch-placeholder{
+    width: min(92px,82%);
+    height: 52px;
+    padding: 4px;
+    border-radius: 8px;
+  }
+
+  .ch-card .ch-name{
+    min-height: 28px;
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  .ch-card .ch-badge{
+    padding: 4px 8px;
+    font-size: 7px;
+  }
+
+  #status{
+    top: max(8px,env(safe-area-inset-top));
+    right: 8px;
+    max-width: calc(100% - 16px);
+    font-size: 9px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 390px){
+  .cx-header{
+    width: calc(100% - 14px);
+  }
+
+  .cx-brand{
+    font-size: 16px;
+  }
+
+  .cx-live-pill{
+    display: none;
+  }
+
+  .cx-counter-label{
+    display: none !important;
+  }
+
+  .cx-hero{
+    width: calc(100% - 14px);
+    padding-top: 34px;
+  }
+
+  .cx-hero h1{
+    font-size: clamp(34px,11.5vw,48px);
+  }
+
+  #ch-grid{
+    width: calc(100% - 14px);
+    gap: 7px;
+  }
+
+  .ch-card{
+    min-height: 126px;
+    padding: 11px 5px;
+    gap: 7px;
+  }
+
+  .ch-card .ch-logo,
+  .ch-card .ch-placeholder{
+    width: 82px;
+    height: 46px;
+  }
+
+  .ch-card .ch-name{
+    font-size: 9px;
+  }
+
+  .ch-card .ch-badge{
+    padding: 3px 7px;
+    font-size: 6.5px;
+  }
+}
+
+/* Touch devices: don't make cards jump aggressively */
+@media (hover: none){
+  .ch-card:hover{
+    transform: none;
+  }
+
+  .cx-category:hover{
+    color: #ddd;
+    border-color: rgba(255,255,255,.10);
+    background: rgba(255,255,255,.025);
+    box-shadow: none;
+  }
+
+  .cx-category.active:hover{
+    color: #fff;
+    border-color: rgba(255,48,79,.8);
+    background: #ff304f;
+    box-shadow: 0 4px 18px rgba(255,48,79,.18);
+  }
+}
+
+/* Prevent long channel names from breaking the grid */
+.ch-card .ch-name{
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
