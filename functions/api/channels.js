@@ -47,7 +47,7 @@ export async function onRequest(context) {
 
   try {
     // CricZoneTV combined channel API: primary -> fallback.
-    const upstreamUrl = context.env.UPSTREAM_API || "https://criczonelive.vercel.app/api/jtv";
+    const upstreamUrl = "https://criczonelive.vercel.app/api/jtv";
 
     let url;
     try {
