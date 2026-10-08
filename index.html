@@ -168,6 +168,7 @@
 
     <div class="cx-red-line"></div>
     <div class="cx-channel-summary"><span id="channelCount">Loading Sony channels…</span><span id="channelSource">LIVE API</span></div>
+    <div class="cx-api-panel"><div><b>CRICZONE TV ENGINE</b><span>Primary → Fallback</span></div><div class="cx-api-live"><i></i> LIVE FEED</div></div>
 
   </section>
 
@@ -436,7 +437,7 @@ function renderList(data){
 
     var logoHtml="";
     if(ch.logo && ch.logo.trim()){
-      logoHtml='<img class="ch-logo" src="'+escapeAttr(ch.logo)+'" alt="'+escapeAttr(ch.name)+'" loading="lazy" onerror="this.style.display=\\'none\\'">';
+      logoHtml='<img class="ch-logo" src="'+escapeAttr(ch.logo)+'" alt="'+escapeAttr(ch.name)+'" loading="lazy" onerror="this.style.display=\'none\'">';
     }else{
       var initials=ch.name.split(/\\s+/).slice(0,2).map(function(w){return w[0]||"";}).join("").toUpperCase();
       logoHtml='<div class="ch-placeholder">'+escapeHtml(initials||"SONY")+"</div>";
