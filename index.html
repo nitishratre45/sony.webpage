@@ -167,6 +167,7 @@
 
 
     <div class="cx-red-line"></div>
+    <div class="cx-channel-summary"><span id="channelCount">Loading Sony channels…</span><span id="channelSource">LIVE API</span></div>
 
   </section>
 
@@ -328,79 +329,132 @@ async function getCookie() {
 }
 
 // ── Load Data ───────────────────────────────────────────────────────────
+var allChannels = [];
+var activeCategory = "all";
+var searchQuery = "";
+
 async function loadData(){
   var r=await fetch(API,{cache:"no-store",headers:{Accept:"application/json"}});
-  if(!r.ok) throw new Error("HTTP "+r.status);
+  if(!r.ok) throw new Error("Channel API HTTP "+r.status);
   var d=await r.json();
-  
-  var channels = [];
-  if(d && Array.isArray(d)) {
-    channels = d;
-  } else if(d && d.channels) {
-    channels = d.channels;
-  } else {
-    throw new Error("Invalid data format");
-  }
-  
-  // Normalize fields
-  channels = channels.map(function(ch) {
+
+  var rawChannels = [];
+  if(Array.isArray(d)) rawChannels = d;
+  else if(d && Array.isArray(d.channels)) rawChannels = d.channels;
+  else if(d && Array.isArray(d.data)) rawChannels = d.data;
+  else if(d && Array.isArray(d.results)) rawChannels = d.results;
+  else throw new Error("Invalid channel JSON format");
+
+  var channels = rawChannels.map(function(ch) {
+    ch = ch || {};
     return {
-      id: ch.id || ch.channel_id || '',
-      name: ch.name || ch.title || 'Unnamed',
-      stream_url: ch.streamUrl || ch.mpd_url || ch.stream_url || ch.url || '',
-      logo: ch.logo || ch.logo_url || ch.image || '',
-      key_id: (ch.keyId || ch.key_id || '').toLowerCase(),
-      key: (ch.key || '').toLowerCase(),
-      cookie: ch.cookie || '',
-      cookie_url: ch.cookies || ch.cookie_url || '',
-      category: ch.group || ch.category || 'General'
+      id: String(ch.id || ch.channel_id || ch.channelId || ch.cid || ch.slug || ch.name || ""),
+      name: String(ch.name || ch.title || ch.channel_name || ch.channelName || "Unnamed"),
+      stream_url: String(ch.streamUrl || ch.mpd_url || ch.mpdUrl || ch.stream_url || ch.url || ch.manifest || ""),
+      logo: String(ch.logo || ch.logo_url || ch.logoUrl || ch.image || ch.image_url || ch.thumbnail || ""),
+      key_id: String(ch.keyId || ch.key_id || ch.kid || "").toLowerCase(),
+      key: String(ch.key || ch.drm_key || ch.clearKey || "").toLowerCase(),
+      cookie: String(ch.cookie || ch.cookies || ""),
+      cookie_url: String(ch.cookies_url || ch.cookie_url || ""),
+      category: String(ch.group || ch.category || ch.genre || ch.type || ch.network || "Sony")
     };
+  }).filter(function(ch){ return ch.stream_url; });
+
+  channels = channels.filter(function(ch){
+    var hay = (ch.name+" "+ch.category+" "+ch.id)
+      .toLowerCase()
+      .replace(/[._-]+/g," ");
+    return /\bsony\b|sonysports|sony sports|sony ten|sony six|sony max|sony pix|sony sab|sony pal|sony yay|sony liv/.test(hay);
   });
-  
-  // Filter out channels without stream URL
-  channels = channels.filter(function(ch) { return ch.stream_url; });
-  
-  if(!channels.length) throw new Error("No valid channels found");
-  console.log('📺 Loaded ' + channels.length + ' channels');
-  return { channels: channels };
+
+  var seen = {};
+  channels = channels.filter(function(ch){
+    var key = ch.id || ch.name;
+    if(seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
+
+  if(!channels.length) throw new Error("No Sony channels found in API response");
+  allChannels = channels;
+  return {channels: channels};
 }
 
-// ── Render Channel List ─────────────────────────────────────────────────
+function matchesChannel(ch){
+  var text = (ch.name+" "+ch.category+" "+ch.id).toLowerCase();
+  var categoryOk = activeCategory === "all" ||
+    (activeCategory === "sony sports" && /sony\s*(sports|ten|six)/i.test(text)) ||
+    (activeCategory === "hd" && /\bhd\b/i.test(text)) ||
+    (activeCategory === "sd" && /\bsd\b/i.test(text)) ||
+    (activeCategory === "sony" && /\bsony\b|sonysports/i.test(text));
+  var searchOk = !searchQuery || text.indexOf(searchQuery) !== -1;
+  return categoryOk && searchOk;
+}
+
 function renderList(data){
   hideOverlay();
-  var channels = data.channels || data;
+  var channels = (data.channels || data).filter(matchesChannel);
   var f=document.createDocumentFragment();
-  
   channels.forEach(function(ch){
     var a=document.createElement("a");
     a.className="ch-card";
     a.href="?id="+encodeURIComponent(ch.id);
-    
-    var logoHtml = '';
-    if (ch.logo && ch.logo.trim()) {
-      logoHtml = '<img class="ch-logo" src="'+ch.logo+'" alt="'+ch.name+'" loading="lazy" onerror="this.style.display=\'none\'">';
+
+    var logoHtml = "";
+    if(ch.logo && ch.logo.trim()){
+      logoHtml = '<img class="ch-logo" src="'+escapeAttr(ch.logo)+'" alt="'+escapeAttr(ch.name)+'" loading="lazy" onerror="this.style.display=\'none\'">';
     } else {
-      var initials = ch.name.split(' ').slice(0,2).map(function(w){ return w[0]; }).join('');
-      logoHtml = '<div class="ch-placeholder">'+initials+'</div>';
+      var initials = ch.name.split(/\s+/).slice(0,2).map(function(w){return w[0]||"";}).join("").toUpperCase();
+      logoHtml = '<div class="ch-placeholder">'+escapeHtml(initials||"SONY")+'</div>';
     }
-    
-    var badgeHtml = '';
-    if (ch.category) {
-      badgeHtml = '<span class="ch-badge">'+ch.category+'</span>';
-    }
-    
-    a.innerHTML = 
+
+    a.innerHTML =
       logoHtml +
-      '<span class="ch-name">'+ch.name+'</span>' +
-      badgeHtml;
-    
+      '<span class="ch-name">'+escapeHtml(ch.name)+'</span>' +
+      '<span class="ch-badge">SONY</span>';
     f.appendChild(a);
   });
-  
-  $grid.innerHTML = '';
-  $grid.appendChild(f);
+
+  $grid.innerHTML="";
+  if(!channels.length){
+    $grid.innerHTML='<div class="cx-empty"><div class="cx-empty-icon">📺</div><strong>No Sony channel found</strong><span>Try another search or category.</span></div>';
+  } else {
+    $grid.appendChild(f);
+  }
   $list.style.display="flex";
+  var count=document.getElementById("channelCount");
+  if(count) count.textContent=channels.length+" Sony channel"+(channels.length===1?"":"s");
 }
+
+function escapeHtml(v){
+  return String(v).replace(/[&<>"']/g,function(ch){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch];
+  });
+}
+function escapeAttr(v){ return escapeHtml(v); }
+
+function applyChannelFilters(){
+  renderList({channels:allChannels});
+}
+
+function initChannelFilters(){
+  var search=document.getElementById("channelSearch");
+  if(search){
+    search.addEventListener("input",function(){
+      searchQuery=search.value.trim().toLowerCase();
+      applyChannelFilters();
+    });
+  }
+  document.querySelectorAll(".cx-category").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      document.querySelectorAll(".cx-category").forEach(function(x){x.classList.remove("active");});
+      btn.classList.add("active");
+      activeCategory=btn.getAttribute("data-category")||"all";
+      applyChannelFilters();
+    });
+  });
+}
+initChannelFilters();
 
 // ── Error Handling ──────────────────────────────────────────────────────
 function errMsg(msg){ setMsg(msg);$overlay.style.display="flex";toast(msg,"err",0); }
