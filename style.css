@@ -2662,3 +2662,114 @@ video.mode-cover {
   }
 
 }
+
+
+/* =========================================================
+   SONY CHANNEL SUMMARY
+========================================================= */
+.cx-channel-summary{
+    width:100%;
+    max-width:1000px;
+    margin:12px auto 0;
+    padding:0 2px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    color:#8f8f8f;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+#channelSource{
+    color:#ff526b;
+    border:1px solid rgba(255,48,79,.22);
+    background:rgba(255,48,79,.06);
+    padding:5px 9px;
+    border-radius:999px;
+}
+
+/* =========================================================
+   IMPROVED SONY CARDS
+========================================================= */
+.ch-card{
+    overflow:hidden;
+    isolation:isolate;
+}
+.ch-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    background:radial-gradient(circle at 50% 0%,rgba(255,48,79,.14),transparent 55%);
+    opacity:.55;
+    transition:opacity .25s ease;
+}
+.ch-card:hover::before{opacity:1;}
+.ch-card .ch-logo,
+.ch-card .ch-placeholder{
+    box-shadow:0 8px 22px rgba(0,0,0,.25);
+}
+.ch-card .ch-name{
+    min-height:31px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.ch-card .ch-badge{
+    color:#ff7184;
+    border-color:rgba(255,48,79,.2);
+    background:rgba(255,48,79,.07);
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+.cx-empty{
+    grid-column:1/-1;
+    min-height:220px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    border:1px dashed rgba(255,255,255,.12);
+    border-radius:16px;
+    background:rgba(255,255,255,.025);
+    color:#aaa;
+    text-align:center;
+}
+.cx-empty-icon{
+    width:52px;
+    height:52px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:rgba(255,48,79,.08);
+    font-size:24px;
+}
+.cx-empty strong{color:#fff;font-size:14px;}
+.cx-empty span{font-size:10px;color:#777;}
+
+/* =========================================================
+   MOBILE POLISH
+========================================================= */
+@media (max-width:700px){
+    .cx-header,.cx-hero,#ch-grid,.cx-channel-summary{
+        width:calc(100% - 24px);
+    }
+    .cx-header{height:66px;}
+    .cx-header-right{gap:6px;}
+    .cx-counter-label{display:none;}
+    .cx-join{padding:8px 13px;}
+    .cx-hero{padding-top:48px;}
+    .cx-hero h1{font-size:clamp(42px,15vw,64px);letter-spacing:-2px;}
+    .cx-search{width:100%;max-width:340px;}
+    #ch-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:9px;
+    }
+    .ch-card{min-height:132px;padding:14px 9px;}
+    .ch-card .ch-logo,.ch-card .ch-placeholder{width:88px;height:50px;}
+}
