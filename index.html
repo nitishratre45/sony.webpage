@@ -183,57 +183,16 @@
 </div>
 
 <div id="pc">
-  <div class="cx-player-page">
-    <div class="cx-player-top">
-      <button class="cx-back-btn" type="button" onclick="history.back()">←</button>
-      <div class="cx-mini-brand">CRICZONE</div>
-      <div class="cx-mini-live"><i></i> LIVE</div>
-    </div>
 
-    <div class="cx-player-kicker"><span></span> LIVE BROADCAST</div>
-    <h2 class="cx-player-title">SONY SPORTS <strong>LIVE.</strong></h2>
+  <video
+    id="v"
+    playsinline
+    webkit-playsinline
+    preload="none"
+    x5-video-player-type="h5"
+    x5-video-player-fullscreen="true">
+  </video>
 
-    <div class="cx-player-tabs">
-      <button class="cx-player-tab active" type="button">SONY SPORTS</button>
-      <button class="cx-player-tab" type="button">SONY ENTERTAINMENT</button>
-      <button class="cx-player-tab" type="button">SONY MOVIES</button>
-    </div>
-
-    <div class="cx-player-chips" id="playerChannelChips"></div>
-
-    <div class="cx-player-meta">
-      <span>PREMIUM FEED</span><i></i><span>HD STREAM</span><i></i><span>LIVE NOW</span>
-    </div>
-
-    <div class="cx-player-line"><span></span></div>
-
-    <div class="cx-video-shell">
-      <video id="v" playsinline webkit-playsinline
-        preload="none"
-        x5-video-player-type="h5"
-        x5-video-player-fullscreen="true"></video>
-
-      <div id="watchingBox">
-        <span class="liveDot"></span>
-        <span id="watchingCount">500</span>
-        <span>WATCHING</span>
-      </div>
-    </div>
-
-    <div class="cx-player-info">
-      <h3 id="playerChannelName">Sony Sports · Live Broadcast</h3>
-      <span>CRICZONE EXCLUSIVE ACCESS</span>
-    </div>
-
-    <button class="cx-share-btn" id="shareStreamBtn" type="button">
-      <span>↗</span> SHARE STREAM
-    </button>
-
-    <div class="cx-theme-toggle" id="themeToggle">
-      <button class="active" type="button" data-theme="dark">● &nbsp; DARK</button>
-      <button type="button" data-theme="light">○ &nbsp; LIGHT</button>
-    </div>
-  </div>
 </div>
 
     <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.16.2/dist/shaka-player.ui.min.js"></script>
