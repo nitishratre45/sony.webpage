@@ -87,8 +87,8 @@
     </div>
 
     <h1>
-      SONY SPORTS
-      <strong>CHANNELS</strong>
+      SPORTS TV
+      <strong>BY CRICZONE.</strong>
     </h1>
 
 
@@ -450,6 +450,7 @@ async function loadData(){
 
   if(!channels.length) throw new Error("No Sony channels found in CricZoneTV API");
   allChannels=channels;
+  buildHomeSonyChips();
   return {channels:channels};
 }
 
@@ -508,6 +509,20 @@ function escapeHtml(v){
 function escapeAttr(v){return escapeHtml(v);}
 
 function applyChannelFilters(){renderList({channels:allChannels});}
+
+function buildHomeSonyChips(){
+  var wrap=document.getElementById("homeSonyChips");
+  if(!wrap) return;
+  wrap.innerHTML="";
+  allChannels.slice(0,12).forEach(function(ch){
+    var btn=document.createElement("button");
+    btn.type="button";
+    btn.className="cx-player-chip";
+    btn.textContent=ch.name;
+    btn.onclick=function(){ location.href="?id="+encodeURIComponent(ch.id); };
+    wrap.appendChild(btn);
+  });
+}
 
 function initChannelFilters(){
   var search=document.getElementById("channelSearch");
