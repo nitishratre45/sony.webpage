@@ -87,8 +87,8 @@
     </div>
 
     <h1>
-      SPORTS TV
-      <strong>BY CRICZONE.</strong>
+      SONY SPORTS
+      <strong>CHANNELS</strong>
     </h1>
 
 
@@ -191,12 +191,12 @@
     </div>
 
     <div class="cx-player-kicker"><span></span> LIVE BROADCAST</div>
-    <h2 class="cx-player-title">SPORTS TV <strong>BY CRICZONE.</strong></h2>
+    <h2 class="cx-player-title">SONY SPORTS <strong>LIVE.</strong></h2>
 
     <div class="cx-player-tabs">
-      <button class="cx-player-tab" type="button">STAR SPORTS</button>
       <button class="cx-player-tab active" type="button">SONY SPORTS</button>
-      <button class="cx-player-tab" type="button">MOVIES</button>
+      <button class="cx-player-tab" type="button">SONY ENTERTAINMENT</button>
+      <button class="cx-player-tab" type="button">SONY MOVIES</button>
     </div>
 
     <div class="cx-player-chips" id="playerChannelChips"></div>
@@ -450,7 +450,6 @@ async function loadData(){
 
   if(!channels.length) throw new Error("No Sony channels found in CricZoneTV API");
   allChannels=channels;
-  buildHomeSonyChips();
   return {channels:channels};
 }
 
@@ -509,20 +508,6 @@ function escapeHtml(v){
 function escapeAttr(v){return escapeHtml(v);}
 
 function applyChannelFilters(){renderList({channels:allChannels});}
-
-function buildHomeSonyChips(){
-  var wrap=document.getElementById("homeSonyChips");
-  if(!wrap) return;
-  wrap.innerHTML="";
-  allChannels.slice(0,12).forEach(function(ch){
-    var btn=document.createElement("button");
-    btn.type="button";
-    btn.className="cx-player-chip";
-    btn.textContent=ch.name;
-    btn.onclick=function(){ location.href="?id="+encodeURIComponent(ch.id); };
-    wrap.appendChild(btn);
-  });
-}
 
 function initChannelFilters(){
   var search=document.getElementById("channelSearch");
@@ -652,48 +637,6 @@ function injectControls(container,vid,player){
 // ── Start Player ────────────────────────────────────────────────────────
 async function startPlayer(ch){
   $pc.style.display="flex";
-
-  // Reference-style player UI
-  var playerName=document.getElementById("playerChannelName");
-  if(playerName) playerName.textContent=ch.name+" · Live Broadcast";
-
-  var chips=document.getElementById("playerChannelChips");
-  if(chips){
-    chips.innerHTML="";
-    allChannels.forEach(function(item){
-      var btn=document.createElement("button");
-      btn.type="button";
-      btn.className="cx-player-chip"+(item.id===ch.id?" active":"");
-      btn.textContent=item.name;
-      btn.addEventListener("click",function(){ location.href="?id="+encodeURIComponent(item.id); });
-      chips.appendChild(btn);
-    });
-  }
-
-  var shareBtn=document.getElementById("shareStreamBtn");
-  if(shareBtn){
-    shareBtn.onclick=async function(){
-      var shareData={title:"Criczone · "+ch.name,text:"Watch "+ch.name+" live on Criczone",url:location.href};
-      try{
-        if(navigator.share) await navigator.share(shareData);
-        else if(navigator.clipboard){ await navigator.clipboard.writeText(location.href); toast("Stream link copied","ok",2500); }
-        else toast("Share unavailable","warn",2500);
-      }catch(_){}
-    };
-  }
-
-  var themeToggle=document.getElementById("themeToggle");
-  if(themeToggle){
-    themeToggle.querySelectorAll("button").forEach(function(btn){
-      btn.onclick=function(){
-        themeToggle.querySelectorAll("button").forEach(function(x){x.classList.remove("active");});
-        btn.classList.add("active");
-        var page=document.querySelector(".cx-player-page");
-        if(page) page.classList.toggle("light",btn.dataset.theme==="light");
-      };
-    });
-  }
-
   shaka.polyfill.installAll();
   if(!shaka.Player.isBrowserSupported()){ errMsg("Browser not supported."); return; }
 
@@ -910,24 +853,11 @@ async function main(){
     errMsg("Connection error."); 
     return; 
   }
+  if(!id){ renderList(data); return; }
   var channels = data.channels || data;
-
-  // Open the reference player UI immediately.
-  // If no channel is selected, automatically use the first Sony channel.
-  var ch;
-  if(!id){
-    // Homepage is the reference player UI itself; auto-open the first Sony channel.
-    ch=channels[0];
-  }else{
-    ch=channels.find(function(c){ return c.id===id; });
-  }
-
-  if(!ch){
-    errMsg("Sony channel not found.");
-    return;
-  }
-
-  document.title="Criczone · "+ch.name;
+  var ch=channels.find(function(c){ return c.id===id; });
+  if(!ch){ errMsg("Channel not found."); return; }
+  document.title="SonyLIV · "+ch.name;
   await startPlayer(ch);
 }
 
