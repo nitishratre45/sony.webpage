@@ -637,6 +637,48 @@ function injectControls(container,vid,player){
 // ── Start Player ────────────────────────────────────────────────────────
 async function startPlayer(ch){
   $pc.style.display="flex";
+
+  // Reference-style player UI
+  var playerName=document.getElementById("playerChannelName");
+  if(playerName) playerName.textContent=ch.name+" · Live Broadcast";
+
+  var chips=document.getElementById("playerChannelChips");
+  if(chips){
+    chips.innerHTML="";
+    allChannels.slice(0,12).forEach(function(item){
+      var btn=document.createElement("button");
+      btn.type="button";
+      btn.className="cx-player-chip"+(item.id===ch.id?" active":"");
+      btn.textContent=item.name;
+      btn.addEventListener("click",function(){ location.href="?id="+encodeURIComponent(item.id); });
+      chips.appendChild(btn);
+    });
+  }
+
+  var shareBtn=document.getElementById("shareStreamBtn");
+  if(shareBtn){
+    shareBtn.onclick=async function(){
+      var shareData={title:"Criczone · "+ch.name,text:"Watch "+ch.name+" live on Criczone",url:location.href};
+      try{
+        if(navigator.share) await navigator.share(shareData);
+        else if(navigator.clipboard){ await navigator.clipboard.writeText(location.href); toast("Stream link copied","ok",2500); }
+        else toast("Share unavailable","warn",2500);
+      }catch(_){}
+    };
+  }
+
+  var themeToggle=document.getElementById("themeToggle");
+  if(themeToggle){
+    themeToggle.querySelectorAll("button").forEach(function(btn){
+      btn.onclick=function(){
+        themeToggle.querySelectorAll("button").forEach(function(x){x.classList.remove("active");});
+        btn.classList.add("active");
+        var page=document.querySelector(".cx-player-page");
+        if(page) page.classList.toggle("light",btn.dataset.theme==="light");
+      };
+    });
+  }
+
   shaka.polyfill.installAll();
   if(!shaka.Player.isBrowserSupported()){ errMsg("Browser not supported."); return; }
 
