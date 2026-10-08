@@ -3,142 +3,60 @@ export async function onRequest(context) {
     new Response(JSON.stringify(data), {
       status,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
         "Cache-Control": "no-store"
       }
     });
 
   try {
-    const upstreamUrl = context.env.UPSTREAM_API;
+    const upstreamUrl = context.env.COOKIE_API;
+    if (!upstreamUrl) return json({ error: "COOKIE_API_MISSING" }, 500);
 
-    // Check environment variable
-    if (!upstreamUrl) {
-      return json(
-        {
-          error: "UPSTREAM_API_MISSING",
-          message: "UPSTREAM_API environment variable is not configured."
-        },
-        500
-      );
-    }
-
-    // Validate URL
     let url;
-
     try {
       url = new URL(upstreamUrl);
     } catch {
-      return json(
-        {
-          error: "INVALID_UPSTREAM_URL",
-          message: "UPSTREAM_API is not a valid URL."
-        },
-        500
-      );
+      return json({ error: "INVALID_COOKIE_API_URL" }, 500);
     }
 
-    // Fetch upstream
-    let response;
-
-    try {
-      response = await fetch(url.toString(), {
-        method: "GET",
-        headers: {
-          "Accept": "application/json",
-          "User-Agent": "CricZone-Channel-API/1.0"
-        },
-        redirect: "follow",
-        cf: {
-          cacheTtl: 0,
-          cacheEverything: false
-        }
-      });
-    } catch (error) {
-      console.error("UPSTREAM FETCH ERROR:", error);
-
-      return json(
-        {
-          error: "UPSTREAM_FETCH_FAILED",
-          message:
-            error instanceof Error
-              ? error.message
-              : String(error),
-          upstream: url.hostname
-        },
-        502
-      );
-    }
-
-    // Upstream returned an HTTP error
-    if (!response.ok) {
-      const body = await response.text();
-
-      console.error(
-        "UPSTREAM HTTP ERROR:",
-        response.status,
-        body.slice(0, 500)
-      );
-
-      return json(
-        {
-          error: "UPSTREAM_HTTP_ERROR",
-          upstreamStatus: response.status,
-          upstreamStatusText: response.statusText,
-          upstream: url.hostname,
-          responsePreview: body.slice(0, 500)
-        },
-        502
-      );
-    }
-
-    // Read response
-    const data = await response.text();
-
-    if (!data || !data.trim()) {
-      return json(
-        {
-          error: "EMPTY_UPSTREAM_RESPONSE"
-        },
-        502
-      );
-    }
-
-    // Validate JSON
-    try {
-      JSON.parse(data);
-    } catch {
-      return json(
-        {
-          error: "INVALID_JSON_FROM_UPSTREAM",
-          responsePreview: data.slice(0, 500)
-        },
-        502
-      );
-    }
-
-    // Return channel data
-    return new Response(data, {
-      status: 200,
+    const response = await fetch(url.toString(), {
+      method: "GET",
       headers: {
-        "Content-Type":
-          response.headers.get("content-type") ||
-          "application/json",
-        "Cache-Control": "no-store"
-      }
+        "Accept": "application/json",
+        "User-Agent": "CricZone-Sony-Cookie-API/2.0"
+      },
+      redirect: "follow",
+      cf: { cacheTtl: 0, cacheEverything: false }
     });
 
-  } catch (error) {
-    console.error("CHANNEL API ERROR:", error);
+    if (!response.ok) {
+      const body = await response.text();
+      return json({
+        error: "COOKIE_UPSTREAM_HTTP_ERROR",
+        upstreamStatus: response.status,
+        upstream: url.hostname,
+        responsePreview: body.slice(0, 300)
+      }, 502);
+    }
 
-    return json(
-      {
-        error: "CHANNEL_API_ERROR",
-        message:
-          error instanceof Error
-            ? error.message
-            : String(error)
-      },
-      500
-    );
+    const raw = await response.text();
+    if (!raw.trim()) return json({ error: "EMPTY_COOKIE_RESPONSE" }, 502);
+
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return json({
+        error: "INVALID_COOKIE_JSON",
+        responsePreview: raw.slice(0, 500)
+      }, 502);
+    }
+
+    return json(parsed);
+  } catch (error) {
+    return json({
+      error: "COOKIE_API_ERROR",
+      message: error instanceof Error ? error.message : String(error)
+    }, 500);
   }
 }
