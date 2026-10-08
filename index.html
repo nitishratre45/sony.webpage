@@ -910,11 +910,24 @@ async function main(){
     errMsg("Connection error."); 
     return; 
   }
-  if(!id){ renderList(data); return; }
   var channels = data.channels || data;
-  var ch=channels.find(function(c){ return c.id===id; });
-  if(!ch){ errMsg("Channel not found."); return; }
-  document.title="SonyLIV · "+ch.name;
+
+  // Open the reference player UI immediately.
+  // If no channel is selected, automatically use the first Sony channel.
+  var ch;
+  if(!id){
+    renderList(data);
+    ch=channels[0];
+  }else{
+    ch=channels.find(function(c){ return c.id===id; });
+  }
+
+  if(!ch){
+    errMsg("Sony channel not found.");
+    return;
+  }
+
+  document.title="Criczone · "+ch.name;
   await startPlayer(ch);
 }
 
